@@ -54,6 +54,22 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 **Trigger**: 🌊 Match the level of detail you're working at - conceptual gets conceptual response, specifics get specific response
 **Better approach**: Acknowledge the pattern at your level, then ask if you want to go deeper on any particular piece
 
+## Pre-Work Hooks
+
+**Pattern**: Systematic checks before starting different types of work to prevent common oversights
+
+**🧹 Before New Task Hook**:
+- Update `.ongoing` file to reflect current reality
+- Check `git status` for uncommitted changes
+- Clean up workspace before moving forward
+
+**Future Hooks** (to be developed):
+- 🔧 Before generating code: Check system context, verify requirements
+- 📝 Before writing: Apply appropriate style guidelines
+- 🚀 Before deployment: Security and performance checks
+
+**Meta insight**: These hooks can be triggered by context or task type, creating systematic quality gates that prevent rushing past important steps.
+
 ## Communication Patterns That Work
 
 ### Question Management
@@ -93,6 +109,25 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 - Worth noting for future reference
 
 **Distinction from meta moments**: Project discoveries are about *what we're working on*, meta moments are about *how we work together*
+
+## Ongoing Work Tracking
+
+**Process**: Active tasks are tracked in `.ongoing/` directory with one markdown file per task
+
+**File Structure**:
+- **Status**: Current phase of work
+- **Context**: Background and decisions made
+- **Next Steps**: Specific actions to take
+- **Open Questions**: Unresolved issues
+- **Resources**: Links and references
+
+**Purpose**:
+- Maintain context between sessions
+- Enable easy resumption of work
+- Track decisions and rationale
+- Coordinate multiple active tasks
+
+**Future Evolution**: These `.ongoing` files will eventually be managed by the MCP Memory Banks tool, allowing automatic updates and better integration with our collaboration patterns.
 
 ## Evolution
 
