@@ -14,11 +14,16 @@ class PatternTest(BaseModel):
     base_context: str = Field(
         description="Base conversation context to establish the scenario"
     )
-    pattern_instruction: str = Field(
-        description="The collaboration pattern or instruction to test"
-    )
     test_scenarios: list[str] = Field(
         description="Array of test statements/transitions to sample responses for"
+    )
+    system_prompt_path: str | None = Field(
+        default=None,
+        description="Path to file containing the system prompt"
+    )
+    system_reminders_paths: list[str] = Field(
+        default_factory=list,
+        description="Paths to files containing system reminders (e.g., CLAUDE.md)"
     )
     sampling_config: SamplingConfig = Field(
         default_factory=lambda: SamplingConfig()

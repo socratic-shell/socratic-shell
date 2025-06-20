@@ -10,6 +10,7 @@ from mcp.server.models import InitializationOptions
 from mcp.types import Tool, TextContent, ServerCapabilities, ToolsCapability
 
 from .models import PatternTest
+from .sampling import SamplingEngine
 
 
 class DialecticServer:
@@ -38,9 +39,15 @@ class DialecticServer:
                                 "type": "string",
                                 "description": "Base conversation context to establish the scenario",
                             },
-                            "pattern_instruction": {
-                                "type": "string", 
-                                "description": "The collaboration pattern or instruction to test",
+                            "system_prompt_path": {
+                                "type": "string",
+                                "description": "Path to file containing the system prompt",
+                            },
+                            "system_reminders_paths": {
+                                "type": "array",
+                                "items": {"type": "string"},
+                                "description": "Paths to files containing system reminders (e.g., CLAUDE.md)",
+                                "default": [],
                             },
                             "test_scenarios": {
                                 "type": "array",
@@ -69,7 +76,7 @@ class DialecticServer:
                                 "additionalProperties": False,
                             },
                         },
-                        "required": ["base_context", "pattern_instruction", "test_scenarios"],
+                        "required": ["base_context", "test_scenarios"],
                         "additionalProperties": False,
                     },
                 )

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import asyncio
 import time
+from pathlib import Path
 from typing import Any
 
 from .models import (
@@ -27,13 +28,18 @@ class SamplingEngine:
         """Test a collaboration pattern with multiple scenarios."""
         start_time = time.time()
         
+        # Read system prompt and reminders from files
+        system_prompt = await self._read_file_if_exists(pattern_test.system_prompt_path)
+        system_reminders = await self._read_system_reminders(pattern_test.system_reminders_paths)
+        
         # Create sampling tasks for all scenarios
         tasks = [
             self._sample_scenario(
                 pattern_test.base_context,
-                pattern_test.pattern_instruction,
                 scenario,
                 pattern_test.sampling_config,
+                system_prompt,
+                system_reminders,
             )
             for scenario in pattern_test.test_scenarios
         ]
@@ -65,34 +71,33 @@ class SamplingEngine:
     async def _sample_scenario(
         self,
         base_context: str,
-        pattern_instruction: str,
         test_scenario: str,
         config: SamplingConfig,
+        system_prompt: str | None,
+        system_reminders: list[str],
     ) -> SamplingResult:
         """Sample a single scenario with the given pattern."""
         start_time = time.time()
         
-        # Construct the full prompt
-        full_prompt = self._build_prompt(
-            base_context, pattern_instruction, test_scenario
+        # Build messages with system reminders and user message
+        messages = self._build_messages(
+            base_context, test_scenario, system_reminders
         )
         
         # Make the MCP sampling call
+        sampling_params = {
+            "messages": messages,
+            "maxTokens": config.max_tokens,
+            "temperature": config.temperature,
+        }
+        
+        # Add system prompt if provided
+        if system_prompt:
+            sampling_params["systemPrompt"] = system_prompt
+            
         sampling_request = {
             "method": "sampling/createMessage",
-            "params": {
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": {
-                            "type": "text",
-                            "text": full_prompt,
-                        },
-                    }
-                ],
-                "maxTokens": config.max_tokens,
-                "temperature": config.temperature,
-            },
+            "params": sampling_params,
         }
         
         response = await self.sampling_client.request(sampling_request)
@@ -116,15 +121,34 @@ class SamplingEngine:
             metadata=metadata,
         )
     
-    def _build_prompt(
-        self, base_context: str, pattern_instruction: str, test_scenario: str
-    ) -> str:
-        """Build the complete prompt for sampling."""
-        return f"""Context: {base_context}
-
-Instructions: {pattern_instruction}
-
-User: {test_scenario}"""
+    def _build_messages(
+        self, base_context: str, test_scenario: str, system_reminders: list[str]
+    ) -> list[dict[str, Any]]:
+        """Build message array with system reminders and user message."""
+        messages = []
+        
+        # Add system reminders as user messages (mimicking Claude's actual format)
+        if system_reminders:
+            reminder_content = "\n\n".join(system_reminders)
+            messages.append({
+                "role": "user",
+                "content": {
+                    "type": "text",
+                    "text": f"<system-reminder>\n{reminder_content}\n</system-reminder>"
+                }
+            })
+        
+        # Add base context and test scenario
+        user_message = f"{base_context}\n\nUser: {test_scenario}"
+        messages.append({
+            "role": "user", 
+            "content": {
+                "type": "text",
+                "text": user_message
+            }
+        })
+        
+        return messages
     
     def _extract_response_text(self, response: Any) -> str:
         """Extract text from MCP sampling response."""
@@ -146,3 +170,23 @@ User: {test_scenario}"""
     def _estimate_token_count(self, text: str) -> int:
         """Rough token count estimation (4 chars per token average)."""
         return len(text) // 4
+    
+    async def _read_file_if_exists(self, file_path: str | None) -> str | None:
+        """Read file content if path is provided and file exists."""
+        if not file_path:
+            return None
+            
+        path = Path(file_path)
+        if not path.exists():
+            raise FileNotFoundError(f"File not found: {file_path}")
+            
+        return path.read_text(encoding="utf-8")
+    
+    async def _read_system_reminders(self, file_paths: list[str]) -> list[str]:
+        """Read multiple system reminder files."""
+        reminders = []
+        for file_path in file_paths:
+            content = await self._read_file_if_exists(file_path)
+            if content:
+                reminders.append(content)
+        return reminders
