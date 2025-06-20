@@ -77,7 +77,7 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 - Clean up workspace before moving forward
 
 **🧹 Completion Hook**:
-**Code phrase**: "Checkpoint our work" - definite signal for full preservation process
+**Code phrase**: "Checkpoint our work" -wei definite signal for full preservation process
 
 **Recognition signals** (consistent across all completion types):
 - **Explicit deferral**: "keep this in our pocket", "we can figure that out as we go", "save that for later"

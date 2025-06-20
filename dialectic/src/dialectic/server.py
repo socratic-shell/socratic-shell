@@ -9,8 +9,7 @@ from mcp.server import Server
 from mcp.server.models import InitializationOptions
 from mcp.types import Tool, TextContent, ServerCapabilities, ToolsCapability
 
-from .models import PatternTest, TestResults
-from .sampling import SamplingEngine
+from .models import PatternTest
 
 
 class DialecticServer:
@@ -19,7 +18,6 @@ class DialecticServer:
     def __init__(self) -> None:
         """Initialize the dialectic server."""
         self.server: Server[Any, Any] = Server("dialectic", version="0.1.0")
-        self.sampling_engine: SamplingEngine | None = None
         self._setup_tools()
     
     def _setup_tools(self) -> None:
@@ -88,26 +86,41 @@ class DialecticServer:
     
     async def _handle_test_pattern(self, arguments: dict[str, Any]) -> list[TextContent]:
         """Handle test_pattern tool call."""
-        if self.sampling_engine is None:
-            raise RuntimeError("Sampling engine not initialized")
-        
         # Parse and validate input
         pattern_test = PatternTest.model_validate(arguments)
         
-        # Execute pattern test
-        results = await self.sampling_engine.test_pattern(pattern_test)
+        # For now, return a placeholder response indicating the server is working
+        # TODO: Implement actual sampling when MCP sampling capabilities are available
+        placeholder_results = {
+            "pattern_test": pattern_test.model_dump(),
+            "results": [
+                {
+                    "test_scenario": scenario,
+                    "response": f"[PLACEHOLDER] This would be Claude's response to: {scenario}",
+                    "metadata": {
+                        "token_count": 50,
+                        "response_time_ms": 100.0,
+                        "sampling_config": pattern_test.sampling_config.model_dump(),
+                    }
+                }
+                for scenario in pattern_test.test_scenarios
+            ],
+            "summary": {
+                "total_scenarios": len(pattern_test.test_scenarios),
+                "total_tokens": 50 * len(pattern_test.test_scenarios),
+                "avg_response_time_ms": 100.0,
+                "completed_at": 1703980800.0,
+            }
+        }
         
         # Return results as JSON
         return [
             TextContent(
                 type="text",
-                text=json.dumps(results.model_dump(), indent=2),
+                text=json.dumps(placeholder_results, indent=2),
             )
         ]
     
-    async def initialize(self, sampling_client: Any) -> None:
-        """Initialize the server with MCP sampling client."""
-        self.sampling_engine = SamplingEngine(sampling_client)
     
     async def run(self) -> None:
         """Run the MCP server."""
