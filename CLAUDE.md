@@ -67,6 +67,21 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 - Check `git status` for uncommitted changes
 - Clean up workspace before moving forward
 
+**🧹 Insight Completion Hook**:
+Trigger consolidation when conversation shows explicit closure + transition:
+- **Explicit deferral**: "keep this in our pocket", "we can figure that out as we go", "save that for later"
+- **Clear pivots**: "Before we...", "Now about...", "Let's talk about...", "Speaking of..."
+- **Scope shifts**: Research→Design, Understanding→Action, Theory→Practice
+- **Meta signals**: "Meta moment", topic summary + new direction
+
+**Examples**:
+- "Good point, we can figure that out as we go. Let's talk about how we'd actually implement this."
+- "That's worth keeping in mind. Now about the architecture..."
+- "Fair enough, let's table that. What about the storage layer?"
+- "Makes sense, we'll circle back. For now, let's focus on..."
+
+**Recognition**: The end of one insight thread is the optimal moment for consolidation - the knowledge is fresh and complete, but about to be buried under new information.
+
 **📝 Before Prose Writing Hook**:
 - Check if voice/style is clearly specified in context
 - If not specified, ask: "What voice should I use for this?"

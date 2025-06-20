@@ -134,6 +134,18 @@ Currently investigating approaches for intelligent information curation:
 - Consolidation automation: Detecting emoji patterns and extracting insights automatically
 - Integration with existing Q chat workflow
 
+## Recent Discoveries (June 20, 2025)
+
+**PageRank for importance scoring**: NetworkX library provides ready-to-use PageRank implementation in Python. Graph can be built from co-occurrence patterns (facts retrieved together = edges), with edge weights based on frequency and temporal decay. This gives us automatic importance scoring based on how central each fact is to the knowledge network.
+
+**Task Tool for pattern testing**: MCP Task tool enables spawning isolated Claude contexts for testing pattern clarity. Similar to JS workers - complete context transfer but no shared state mutation. Could transfer pattern descriptions + test cases to fresh Claude, get back classification results without contaminating main conversation thread. Enables rapid iteration on collaboration patterns.
+
+**Insight Completion Hook refinement**: Consolidated trigger pattern recognizes natural conversation breakpoints where one insight thread completes and we transition to another. Key insight: consolidation should align with conversation rhythm, not just task boundaries. Pattern now includes concrete examples and explicit trigger phrases.
+
+**Meta-insight on cognitive load management**: Consolidation moments prevent cognitive overload by clearing completed threads before opening new ones. Multiple active threads create discomfort and risk losing key insights. The pattern of "review recent history → take action on actionable items → record notes on the rest" creates clean transitions between topics while preserving important discoveries.
+
+**Emotional state as completion signal**: Both participants experienced a shift from "cognitive tension with multiple threads" to "clear and grounded" after successful consolidation. This feeling of completion satisfaction and mental space opening may serve as an additional signal for readiness to move on, complementing the explicit language patterns in the Insight Completion Hook. Worth observing in future collaborations.
+
 ## Resources
 - MCP documentation for server implementation
 - Human memory research for lifecycle modeling
