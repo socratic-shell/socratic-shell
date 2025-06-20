@@ -48,4 +48,4 @@ select = [
 ]
 
 [project.scripts]
-dialectic = "dialectic.main:main"
+dialectic = "dialectic.main:cli"

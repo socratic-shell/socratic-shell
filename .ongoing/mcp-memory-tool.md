@@ -150,6 +150,8 @@ Currently investigating approaches for intelligent information curation:
 
 **Completion Hook unification**: Merged Insight Completion Hook and Checkpoint Hook into unified Completion Hook pattern. Recognition signals remain consistent (explicit deferral, clear pivots, scope shifts, meta signals, emotional shift from tension to clarity). Key innovation: match response type to completion type - insight completion gets documented, implementation milestones get committed, work sessions get full checkpointed, etc. "Checkpoint our work" remains definitive code phrase for full preservation process. Enables proactive recognition and appropriate action suggestions based on what was actually completed.
 
+**Dialectic MCP server ready for testing**: Fixed entry point for command line usage (async wrapper), ready to configure with Claude Code. Next step: run `claude mcp add dialectic-local "cd /home/nikomatsakis/dev/socratic-shell/dialectic && uv run dialectic"` to register server locally. Test plan: use Completion Hook pattern with scenarios like "Good point, we can figure that out as we go. Let's talk about implementation." vs "That's very interesting. Let's talk about implementation." to see if fresh Claude recognizes completion signals differently.
+
 ## Resources
 - MCP documentation for server implementation
 - Human memory research for lifecycle modeling

@@ -28,5 +28,10 @@ async def main() -> None:
         sys.exit(1)
 
 
-if __name__ == "__main__":
+def cli() -> None:
+    """Sync entry point for command line usage."""
     asyncio.run(main())
+
+
+if __name__ == "__main__":
+    cli()
