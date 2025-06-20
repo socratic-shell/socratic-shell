@@ -146,6 +146,10 @@ Currently investigating approaches for intelligent information curation:
 
 **Emotional state as completion signal**: Both participants experienced a shift from "cognitive tension with multiple threads" to "clear and grounded" after successful consolidation. This feeling of completion satisfaction and mental space opening may serve as an additional signal for readiness to move on, complementing the explicit language patterns in the Insight Completion Hook. Worth observing in future collaborations.
 
+**Dialectic MCP server implementation**: Built complete MCP server for testing collaboration patterns through structured conversation scenarios. Key decisions: Python with strict typing, uv for dependency management, async parallel sampling, proper MCP integration with auxiliary type comments for untyped decorators. Server provides `test_pattern` tool that takes base context + pattern instruction + test scenarios, returns structured results for human evaluation. Ready for testing Insight Completion Hook and other patterns systematically.
+
+**Completion Hook unification**: Merged Insight Completion Hook and Checkpoint Hook into unified Completion Hook pattern. Recognition signals remain consistent (explicit deferral, clear pivots, scope shifts, meta signals, emotional shift from tension to clarity). Key innovation: match response type to completion type - insight completion gets documented, implementation milestones get committed, work sessions get full checkpointed, etc. "Checkpoint our work" remains definitive code phrase for full preservation process. Enables proactive recognition and appropriate action suggestions based on what was actually completed.
+
 ## Resources
 - MCP documentation for server implementation
 - Human memory research for lifecycle modeling
