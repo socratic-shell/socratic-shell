@@ -71,11 +71,12 @@ Relevance = 0.3×Recency + 0.2×Frequency + 0.35×Importance + 0.15×Context_Sim
 ## Next Steps
 1. ✅ Research intelligent curation approaches for relevance scoring (COMPLETE)
 2. ✅ **Design storage architecture** for git-based sync and conflict avoidance (COMPLETE)
-3. **Design specific MCP tool interface** based on research findings
-4. Implement two-stage retrieval architecture (BM25 + semantic reranking)
-5. Implement Socratic Shell Memory Bank MCP server
-6. Test with writing guidelines and collaboration patterns
-7. Expand to replace manual `.ongoing` files
+3. ✅ **Define content safety strategy** for workplace-safe memory consolidation (COMPLETE)
+4. **Design specific MCP tool interface** based on research findings
+5. Implement two-stage retrieval architecture (BM25 + semantic reranking)
+6. Implement Socratic Shell Memory Bank MCP server
+7. Test with writing guidelines and collaboration patterns
+8. Expand to replace manual `.ongoing` files
 
 ## Open Questions
 - Context tracking implementation: How to detect and maintain "what are we doing" state
@@ -107,13 +108,15 @@ Relevance = 0.3×Recency + 0.2×Frequency + 0.35×Importance + 0.15×Context_Sim
 
 ## Recent Discoveries (June 21, 2025)
 
-**Git-based storage architecture finalized**: Memory bank will use git repository for cross-host synchronization with individual JSON fact files (UUID-named with semantic prefixes). Pull-consolidate-push workflow with retry logic handles conflicts. Flat directory structure chosen for simplicity.
+**Git-based storage architecture finalized**: Memory bank will use git repository for cross-host synchronization with individual JSON fact files (UUID-named with semantic prefixes). Pull-consolidate-push workflow with LLM-assisted conflict resolution handles merge conflicts internally. Flat directory structure chosen for simplicity.
 
 **In-memory database selection**: ChromaDB chosen for in-memory indexing and two-stage retrieval. Handles both keyword search (stage 1) and semantic similarity (stage 2) in one system. Loads all facts from git on startup, provides fast querying during operation.
 
 **Cross-project vs project-specific distinction**: Memory bank stores cross-project insights (collaboration patterns, user preferences, meta-knowledge) while project-specific data stays with projects. This scoping prevents the memory bank from becoming cluttered with technical details that don't transfer between collaborations.
 
-**Conflict avoidance strategy**: Individual JSON files with UUID names virtually eliminate merge conflicts. Git provides versioning and sync infrastructure. Semantic naming prefixes enable human browsability while UUIDs guarantee uniqueness.
+**Conflict resolution strategy**: Individual JSON files with UUID names reduce merge conflicts to same-fact updates. When conflicts occur (concurrent updates to same fact), internal LLM-assisted resolution merges semantic content intelligently. Git provides versioning and sync infrastructure. Semantic naming prefixes enable human browsability while UUIDs guarantee uniqueness.
+
+**Content safety strategy**: Claude (via CLAUDE.md guidance) acts as gatekeeper for memory consolidation. Safe categories: collaboration patterns, communication preferences, technical approaches, meta-work insights. Excluded: project code, company processes, proprietary information, personal details. Borderline cases: ask user explicitly. This ensures workplace-safe operation by putting intelligence at the decision layer rather than in the tool itself.
 
 ## Resources
 - Human memory research findings in `references/human-memory-architectural-insights.md`
