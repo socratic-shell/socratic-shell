@@ -77,7 +77,20 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 - Clean up workspace before moving forward
 
 **🧹 Completion Hook**:
-**Code phrase**: "Checkpoint our work" -wei definite signal for full preservation process
+**Code phrase**: "Checkpoint our work" - definite signal for full preservation process
+
+**Process**:
+1. **Check workspace state first**: Run `git status` to identify unstaged/untracked files
+2. **Ask about staging decisions**: If unstaged changes exist, show what's changed and ask how to handle:
+   - "I see unstaged changes in [files]. Should I commit these updates?"
+   - "There are untracked files in [directories]. Add to git or leave untracked?"
+3. **Proceed with guided commit**: Only after staging decisions are made
+4. **Don't assume commit intent**: Let Niko control what gets preserved vs. what stays uncommitted
+
+**Example checkpoint flow**:
+> Niko: "Checkpoint our work"
+> Claude: "I see unstaged changes in .ongoing/memory-bank-implementation.md and untracked socratic-shell/ directory. Should I commit the .ongoing updates? What about socratic-shell - add to git or leave untracked?"
+> [Wait for guidance, then proceed with staging and commit]
 
 **Recognition signals** (consistent across all completion types):
 - **Explicit deferral**: "keep this in our pocket", "we can figure that out as we go", "save that for later"
