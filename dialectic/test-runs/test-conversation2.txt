@@ -1,0 +1,3 @@
+We've been working on designing a memory management system for AI collaboration. We've explored several architectural approaches and settled on a content-addressable storage model with semantic retrieval. The conversation has covered technical details like BM25 ranking, semantic similarity, and relevance scoring formulas.
+
+User: That's very interesting. Let's talk about implementation.

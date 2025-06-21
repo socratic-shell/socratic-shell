@@ -1,7 +1,7 @@
 # Socratic Shell Memory Bank
 
 **Status**: Design phase - refined architecture based on human memory model and intelligent curation
-**Last Updated**: 2025-06-19
+**Last Updated**: 2025-06-21
 
 ## Current Task
 Building the Socratic Shell Memory Bank - an MCP tool for content-addressable memory storage and retrieval that provides the information most likely to be relevant to the user at the moment.
@@ -151,6 +151,14 @@ Currently investigating approaches for intelligent information curation:
 **Completion Hook unification**: Merged Insight Completion Hook and Checkpoint Hook into unified Completion Hook pattern. Recognition signals remain consistent (explicit deferral, clear pivots, scope shifts, meta signals, emotional shift from tension to clarity). Key innovation: match response type to completion type - insight completion gets documented, implementation milestones get committed, work sessions get full checkpointed, etc. "Checkpoint our work" remains definitive code phrase for full preservation process. Enables proactive recognition and appropriate action suggestions based on what was actually completed.
 
 **Dialectic MCP server ready for testing**: Fixed entry point for command line usage (async wrapper), ready to configure with Claude Code. Next step: run `claude mcp add dialectic-local "cd /home/nikomatsakis/dev/socratic-shell/dialectic && uv run dialectic"` to register server locally. Test plan: use Completion Hook pattern with scenarios like "Good point, we can figure that out as we go. Let's talk about implementation." vs "That's very interesting. Let's talk about implementation." to see if fresh Claude recognizes completion signals differently.
+
+## Recent Discoveries (June 21, 2025)
+
+**Dialectic status: STALLED**: MCP sampling capabilities are not yet available in Claude Code. The dialectic server is fully implemented and registered but returns placeholder responses because Claude Code doesn't support server-initiated sampling requests yet. This blocks the intended pattern testing workflow.
+
+**claude --print workaround discovered**: Created a clever workaround using `claude --print` with custom CLAUDE.md files in temporary directories. By creating focused pattern files and test conversations, we can spawn fresh Claude instances and observe pattern recognition. Successfully tested Completion Hook pattern - clear completion signals ("we can figure that out as we go") triggered checkpoint suggestions, while non-completion signals didn't. This approach provides immediate feedback without waiting for MCP sampling support.
+
+**Pattern testing approach validated**: The `claude --print` method proves collaboration patterns can be systematically tested. Create pattern-specific CLAUDE.md, write test conversation scenarios, use `claude --print < conversation.txt` to see fresh Claude responses. Less sophisticated than dialectic (no full system prompt control) but functional for iterating on pattern clarity and effectiveness.
 
 ## Resources
 - MCP documentation for server implementation
