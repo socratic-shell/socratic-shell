@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "socratic-shell"
+version = "0.1.0"
+description = "MCP server for intelligent memory consolidation and retrieval"
+authors = [
+    {name = "Niko Matsakis", email = "niko@alum.mit.edu"},
+]
+dependencies = [
+    "mcp",
+    "pydantic",
+]
+requires-python = ">=3.11"
+
+[project.scripts]
+socratic-shell = "socratic_shell.__main__:main_sync"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest",
+    "ruff",
+    "mypy",
+]
