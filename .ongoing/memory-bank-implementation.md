@@ -72,11 +72,12 @@ Relevance = 0.3×Recency + 0.2×Frequency + 0.35×Importance + 0.15×Context_Sim
 1. ✅ Research intelligent curation approaches for relevance scoring (COMPLETE)
 2. ✅ **Design storage architecture** for git-based sync and conflict avoidance (COMPLETE)
 3. ✅ **Define content safety strategy** for workplace-safe memory consolidation (COMPLETE)
-4. **Design specific MCP tool interface** based on research findings
-5. Implement two-stage retrieval architecture (BM25 + semantic reranking)
-6. Implement Socratic Shell Memory Bank MCP server
-7. Test with writing guidelines and collaboration patterns
-8. Expand to replace manual `.ongoing` files
+4. ✅ **Design memory interaction patterns** for autonomous Claude usage (COMPLETE)
+5. **Design specific MCP tool interface** based on research findings
+6. Implement two-stage retrieval architecture (BM25 + semantic reranking)
+7. Implement Socratic Shell Memory Bank MCP server
+8. Test with writing guidelines and collaboration patterns
+9. Expand to replace manual `.ongoing` files
 
 ## Open Questions
 - Context tracking implementation: How to detect and maintain "what are we doing" state
@@ -117,6 +118,8 @@ Relevance = 0.3×Recency + 0.2×Frequency + 0.35×Importance + 0.15×Context_Sim
 **Conflict resolution strategy**: Individual JSON files with UUID names reduce merge conflicts to same-fact updates. When conflicts occur (concurrent updates to same fact), internal LLM-assisted resolution merges semantic content intelligently. Git provides versioning and sync infrastructure. Semantic naming prefixes enable human browsability while UUIDs guarantee uniqueness.
 
 **Content safety strategy**: Claude (via CLAUDE.md guidance) acts as gatekeeper for memory consolidation. Safe categories: collaboration patterns, communication preferences, technical approaches, meta-work insights. Excluded: project code, company processes, proprietary information, personal details. Borderline cases: ask user explicitly. This ensures workplace-safe operation by putting intelligence at the decision layer rather than in the tool itself.
+
+**Memory interaction patterns defined (June 21, 2025)**: Comprehensive design for autonomous memory usage by Claude including: (a) memory candidates - 🎯 moments generate memories with natural decay filtering, (b) autonomous retrieval during 🤔 confusion moments, context loading, and pattern recognition, (c) sophisticated memory evolution including store-back updates, generalization, error correction, and memory splitting. Key insight: explicit subjects improve relevance scoring and enable fast lookup when specific concepts arise in conversation. Memory bank serves as invisible context enhancement rather than visible tool.
 
 ## Resources
 - Human memory research findings in `references/human-memory-architectural-insights.md`

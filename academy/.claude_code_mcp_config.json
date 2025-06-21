@@ -1,0 +1,9 @@
+{
+  "servers": {
+    "socratic-shell": {
+      "command": "uv",
+      "args": ["run", "--directory", "../socratic-shell", "socratic-shell"],
+      "env": {}
+    }
+  }
+}
