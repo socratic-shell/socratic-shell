@@ -73,7 +73,8 @@ Relevance = 0.3×Recency + 0.2×Frequency + 0.35×Importance + 0.15×Context_Sim
 2. ✅ **Design storage architecture** for git-based sync and conflict avoidance (COMPLETE)
 3. ✅ **Define content safety strategy** for workplace-safe memory consolidation (COMPLETE)
 4. ✅ **Design memory interaction patterns** for autonomous Claude usage (COMPLETE)
-5. **Design specific MCP tool interface** based on research findings
+5. **Design memory operation timing** - when during conversation flow should consolidation, retrieval, and store-back operations occur for optimal collaboration experience
+6. **Design specific MCP tool interface** based on research findings
 6. Implement two-stage retrieval architecture (BM25 + semantic reranking)
 7. Implement Socratic Shell Memory Bank MCP server
 8. Test with writing guidelines and collaboration patterns
