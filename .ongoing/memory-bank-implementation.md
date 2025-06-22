@@ -1,130 +1,190 @@
-# Socratic Shell Memory Bank
+# Socratic Shell Memory Bank - Living Design Document
 
-**Status**: Design phase complete - ready for MCP tool interface design
-**Last Updated**: 2025-06-21
-
-## Current Task
-Building the Socratic Shell Memory Bank - an MCP tool for content-addressable memory storage and retrieval that provides the information most likely to be relevant to the user at the moment.
+**Status**: Design Complete - Ready for Implementation  
+**Last Updated**: 2025-06-22
 
 ## Core Goal
 **Intelligent context curation**: Scale gracefully as our collaborative knowledge base grows, naturally retaining important facts while discarding extraneous detail. The system should surface the right information at the right time, handling context accumulation in a way that enhances rather than overwhelms collaboration.
 
-## Refined Architecture
+## Design Axioms
 
-### Memory Model
+### Intelligence at the Right Layer
+- **Keep tools simple and deterministic** - MCP tools handle storage, detection, basic operations
+- **Put semantic understanding in the Claude layer** - Complex decisions happen with full context
+- **Let the intelligent layer handle ambiguity** - Claude collaborates with user on uncertain cases
+
+### User Partnership Over Automation  
+- **When uncertain, involve the user rather than guessing** - Ask for guidance in ambiguous scenarios
+- **Make collaborative decisions transparent, not hidden** - Show reasoning, present options
+- **Build trust through predictable behavior + intelligent guidance** - Consistent tool layer, smart human layer
+
+### Follow Natural Conversation Topology
+- **Operations align with natural boundaries** - Checkpoints, topic shifts, completion signals
+- **Memory serves conversation flow rather than interrupting it** - Background operations, invisible integration
+- **Context expands/contracts based on actual needs** - Load what's relevant when it's relevant
+
+### Context is King
+- **Full conversation context beats isolated processing** - Current work informs memory decisions
+- **Rich context enables better decision-making** - Memory conflicts resolved with full understanding
+- **Current insights inform past memory evolution** - Store-back updates use fresh context
+
+### Learn from Biology
+- **Mirror human memory architecture** - Short-term (LLM context) to long-term (consolidated storage) pipeline
+- **Episodic vs semantic memory distinction** - Store both specific experiences and generalized patterns
+- **Intelligent forgetting as feature** - Natural decay filters signal from noise, like human forgetting curve
+- **Context-dependent retrieval** - Memory surfaced based on current situation, not just keyword matching
+- **Consolidation during rest periods** - Memory operations align with natural conversation boundaries
+
+## Settled Design Decisions
+
+### Memory Architecture
 - **Content-addressable storage**: Facts stored with minimal structure, retrieved by semantic similarity (RAG approach)
 - **Working memory = Native context**: No separate short-term storage - facts exist in conversation until consolidated
 - **Memory Banks = Consolidated storage**: Long-term storage for proven useful facts
 - **Memory lifecycle**: Active use → Consolidation → Read-in → Store-back → Intelligent curation
 
-### Dual Memory Types
+### Memory Structure
+```json
+{
+  "content": "Rich natural language memory with full context",
+  "subject": ["explicit", "searchable", "topics"],
+  "project": "socratic-shell" | "global", 
+  "mood": "curious" | "precise" | "understanding-check",
+  "content_type": "insight" | "pattern" | "decision" | "ongoing_task"
+}
+```
+
+**Why explicit subjects over pure embedding search:**
+- **Relevance scoring enhancement**: Explicit subject matching provides strong signal for Context_Similarity component of relevance formula
+- **Fast lookup on confusion**: When Claude encounters unfamiliar terms, direct subject search enables immediate context retrieval
+- **Multi-subject memories**: Tags allow memories to surface for related but differently-worded concepts
+- **Precision + semantic flexibility**: Combines exact topic matching with embedding search for comprehensive retrieval
+
+### Memory Types
 1. **Project insights**: Technical discoveries, decisions, patterns that worked
-2. **User observations**: Niko's preferences, working style, context patterns
+2. **User observations**: Niko's preferences, working style, context patterns  
+3. **Cross-project patterns**: Collaboration approaches, meta-work insights
 
-### CLAUDE.md Integration
-- Emoji patterns (🔍, 🎯, 🤔) signal consolidation-worthy moments
-- Warning signs become negative examples to store
-- Meta moments are explicit consolidation triggers
-- Communication preferences inform storage and retrieval patterns
+### Memory Interaction Patterns
 
-### Core Operations
-- **Consolidate**: Store facts from current context based on pattern recognition
-- **Read-in**: Load relevant facts into context, update access metadata
-- **Store-back**: Update fact content with new insights, refresh change metadata
-- **Intelligent curation**: Surface most relevant facts while filtering noise
+**Memory Candidates** (What to Remember):
+- **🎯 Precise moments** generate memories liberally with natural decay filtering
+- Technical insights, behavioral patterns, architectural decisions, communication preferences
+- Short-term memories form frequently, only reinforced patterns become long-term
 
-## Implementation Stack
+**Autonomous Retrieval Triggers** (When to Look for Memories):
+- **🤔 Confusion moments**: Unfamiliar terms/concepts that feel familiar
+- **Context loading**: Session start, new topic emergence, explicit connections
+- **Pattern recognition**: "This feels familiar" situations
+- **Assumption checking**: Before suggesting approaches
+
+**Memory Evolution Patterns** (How to Update):
+- **Store-back**: Add new insights to existing memories about same topics
+- **Generalization**: Broaden context when new situations prove wider applicability
+- **Error correction**: Update incorrect memories + create mistake pattern memories
+- **Memory splitting**: Separate distinct contexts that have grown together
+- **Ask for guidance**: Present options when evolution path is unclear
+
+### Operation Timing (Natural Conversation Flow)
+- **Session start**: Load project + recent collaboration context  
+- **During session**: Background retrieval on confusion/new topics, load context on connections
+- **Topic boundaries/checkpoints**: Consolidate + store-back (same as "checkpoint our work")
+- **Session end**: Final consolidation sweep
+
+### Conflict Resolution Architecture
+- **MCP tool**: Detects concurrent updates, returns conflict error with both versions
+- **Claude layer**: Attempts intelligent merge using full conversation context
+- **User collaboration**: Present merged result for approval/editing
+- **Evolution opportunity**: Apply memory splitting/generalization rules during resolution
+
+**Conflict Resolution Strategies:**
+- **Additive merge**: Combine complementary insights about same topic ("auth works with REST" + "auth works with GraphQL" → "auth works with both REST and GraphQL")
+- **Generalization**: Broaden context when updates suggest wider applicability ("web sessions" + "mobile sessions" → "session management for stateful applications")
+- **Memory splitting**: Separate into distinct context-specific memories when scope has diverged
+- **Error correction**: Update incorrect information + create mistake pattern memory for learning
+- **Ask for guidance**: Present options when resolution path is unclear ("Should I generalize or split this memory?")
+
+### Technical Stack
 - **Language**: Python with full type annotations
-- **Dependency management**: `uv` for fast, reliable package management
-- **Key libraries**: `rank-bm25`, `sentence-transformers`, `chromadb`/`faiss`
-- **Data validation**: `pydantic` for fact schemas and metadata
-- **Project structure**: `pyproject.toml` with modern Python best practices
+- **Dependency management**: `uv` for fast, reliable package management  
+- **Storage**: Git repository with individual JSON files (UUID + semantic prefix naming)
+- **Indexing**: ChromaDB for in-memory two-stage retrieval (BM25 + semantic reranking)
+- **Data validation**: Pydantic schemas for memory structure
+- **Relevance scoring**: `0.3×Recency + 0.2×Frequency + 0.35×Importance + 0.15×Context_Similarity`
 
-## Key Research Findings
+### Content Safety Strategy
+- **Claude as gatekeeper**: Uses CLAUDE.md guidance for consolidation decisions
+- **Safe categories**: Collaboration patterns, communication preferences, technical approaches, meta-work insights
+- **Excluded**: Project code, company processes, proprietary information, personal details
+- **Borderline cases**: Ask user explicitly rather than assume
 
-### Relevance Scoring Formula
-```
-Relevance = 0.3×Recency + 0.2×Frequency + 0.35×Importance + 0.15×Context_Similarity
-```
+### Integration with CLAUDE.md
+- **Emoji patterns signal memory operations**: 🔍 curious exploration, 🎯 precise insights, 🤔 understanding checks
+- **Warning signs become negative examples**: Store assumption traps and communication failures
+- **Meta moments trigger explicit consolidation**: "Meta moment" = memory boundary
+- **Completion hooks align with memory operations**: Same natural rhythm for all preservation
 
-### Two-Stage Retrieval Architecture
-- **Stage 1**: Fast BM25-based candidate retrieval (top 50-100 facts)
-- **Stage 2**: Semantic reranking with cross-encoders (top 10-15 results)
+## Implementation Roadmap
 
-### Graph-Based Importance Scoring
-- **PageRank implementation**: NetworkX library for centrality calculation
-- **Co-occurrence patterns**: Facts retrieved together create edges
-- **Temporal decay**: Connection strength decreases without reinforcement
-- **Dynamic networks**: Adapts to current collaboration patterns
+### Phase 1: Core MCP Tools (Next)
+- [ ] **Design MCP tool interface** based on settled architecture
+- [ ] **Implement consolidate/read_in/store_back operations**
+- [ ] **Basic conflict detection and error handling**
+- [ ] **Refine conflict resolution criteria** - decision framework for when to apply additive merge vs. generalization vs. splitting vs. error correction
 
-### Human Memory Architecture Validation
-- **Declarative vs procedural**: Facts vs behavioral patterns need different storage
-- **Working memory buffer**: Claude's context serves this role naturally
-- **Multi-timescale consolidation**: Read-in/store-back lifecycle matches human memory
-- **Context-aware retrieval**: Semantic + contextual + emotional salience
+### Phase 2: Intelligence Layer
+- [ ] **Two-stage retrieval implementation** (BM25 + semantic reranking)
+- [ ] **Memory evolution logic** (generalization, splitting, error correction)
+- [ ] **Natural timing integration** with CLAUDE.md patterns
 
-### Enhanced Behavioral Memory Format
-- **Context**: "When we're doing X" (current activity/phase)
-- **Internal State**: "and I feel Y" (emotional/cognitive state)
-- **Response**: "then Z" (behavioral guidance)
+### Phase 3: Testing & Refinement  
+- [ ] **Academy integration** with experimental usage patterns
+- [ ] **Real collaboration testing** with memory bank MCP server
+- [ ] **Pattern refinement** based on actual usage
 
-## Next Steps
-1. ✅ Research intelligent curation approaches for relevance scoring (COMPLETE)
-2. ✅ **Design storage architecture** for git-based sync and conflict avoidance (COMPLETE)
-3. ✅ **Define content safety strategy** for workplace-safe memory consolidation (COMPLETE)
-4. ✅ **Design memory interaction patterns** for autonomous Claude usage (COMPLETE)
-5. **Design memory operation timing** - when during conversation flow should consolidation, retrieval, and store-back operations occur for optimal collaboration experience
-6. **Design specific MCP tool interface** based on research findings
-6. Implement two-stage retrieval architecture (BM25 + semantic reranking)
-7. Implement Socratic Shell Memory Bank MCP server
-8. Test with writing guidelines and collaboration patterns
-9. Expand to replace manual `.ongoing` files
+### Phase 4: Expansion
+- [ ] **Replace manual .ongoing files** with memory bank storage
+- [ ] **Cross-project memory sync** and inheritance patterns
 
 ## Open Questions
-- Context tracking implementation: How to detect and maintain "what are we doing" state
-- Co-occurrence tracking: Optimal time windows and decay functions for connection strength
-- Behavioral trigger detection: Recognizing internal states and context patterns in conversation
-- Fact vs behavioral memory retrieval timing: When to surface each type proactively
-- Connection threshold tuning: When do weak connections effectively disappear
-- Consolidation automation: Detecting emoji patterns and extracting insights automatically
-- Integration with existing collaboration workflow
 
-## Key Decisions Made
-- Content-addressable memory approach over structured storage
-- Human memory phases model (working memory = context, consolidated storage only)
-- RAG-based semantic search implementation
-- CLAUDE.md patterns as consolidation triggers
-- Dual focus: project insights + user observations
-- Intelligent curation over simple staleness detection
-- Goal: Surface relevant information, filter extraneous detail
-- Name: "Socratic Shell Memory Bank"
-- Two-stage retrieval architecture (BM25 + semantic reranking)
-- Implementation: Python with `uv`, type annotations, and modern tooling
+### Technical Implementation
+- **Context detection**: How to automatically identify "what we're doing" for memory tagging
+- **Co-occurrence tracking**: Optimal time windows and decay functions for connection strength
+- **Connection thresholds**: When do weak memory connections effectively disappear
+- **Performance optimization**: Memory loading strategies for large collaboration histories
 
-## Context
-- Evolved from manual `.ongoing` files → automatic memory management
-- Inspired by human memory phases and content-addressable storage
-- RAG-based semantic search leverages existing solutions
-- CLAUDE.md patterns become the "operating system" for memory consolidation
-- Self-improving system where collaboration patterns get better through accumulated memory
+### User Experience  
+- **Memory operation visibility**: How much to show vs. keep invisible during natural usage
+- **Conflict resolution UX**: Best ways to present merge options and gather user input
+- **Cross-session continuity**: Maintaining memory context across different Claude instances
 
-## Recent Discoveries (June 21, 2025)
+### Evolution & Learning
+- **Pattern extraction**: Automatically detecting successful collaboration patterns from memory usage
+- **Memory curation**: Balancing selective retention with comprehensive capture
+- **System evolution**: How the memory bank itself learns and improves over time
 
-**Git-based storage architecture finalized**: Memory bank will use git repository for cross-host synchronization with individual JSON fact files (UUID-named with semantic prefixes). Pull-consolidate-push workflow with LLM-assisted conflict resolution handles merge conflicts internally. Flat directory structure chosen for simplicity.
+## Frequently Asked Questions
 
-**In-memory database selection**: ChromaDB chosen for in-memory indexing and two-stage retrieval. Handles both keyword search (stage 1) and semantic similarity (stage 2) in one system. Loads all facts from git on startup, provides fast querying during operation.
+### Why did memory bank scope evolve from "no project-specific data" to configurable storage?
+Initially designed for pure cross-project patterns, but `.ongoing` files revealed that project-specific memories (like ongoing tasks) benefit from memory bank features. Solution: configurable storage destinations per project, allowing inheritance from global patterns while maintaining project-specific context.
 
-**Cross-project vs project-specific distinction**: Memory bank stores cross-project insights (collaboration patterns, user preferences, meta-knowledge) while project-specific data stays with projects. This scoping prevents the memory bank from becoming cluttered with technical details that don't transfer between collaborations.
+### Why does conflict resolution happen in Claude layer rather than automated in MCP tool?
+**Context advantage**: Claude has full conversation context when conflicts occur, enabling intelligent decisions about whether to merge, generalize, or split memories. Current work often reveals the right resolution path (e.g., "we're building mobile API now, so this conflict should favor mobile considerations"). Automated resolution would lack this contextual intelligence.
 
-**Conflict resolution strategy**: Individual JSON files with UUID names reduce merge conflicts to same-fact updates. When conflicts occur (concurrent updates to same fact), internal LLM-assisted resolution merges semantic content intelligently. Git provides versioning and sync infrastructure. Semantic naming prefixes enable human browsability while UUIDs guarantee uniqueness.
+### How does natural decay work as signal filtering?
+Like human forgetting curve, most memories form but only useful patterns survive through repeated access. 🎯 moments generate memories liberally, but memories that don't get "read-in" or "store-back" during future relevant conversations naturally fade. This filters signal from noise without requiring perfect upfront curation.
 
-**Content safety strategy**: Claude (via CLAUDE.md guidance) acts as gatekeeper for memory consolidation. Safe categories: collaboration patterns, communication preferences, technical approaches, meta-work insights. Excluded: project code, company processes, proprietary information, personal details. Borderline cases: ask user explicitly. This ensures workplace-safe operation by putting intelligence at the decision layer rather than in the tool itself.
+### Why align memory operations with checkpoint moments instead of immediate processing?
+**Conversation flow preservation**: Memory operations at topic boundaries feel natural rather than disruptive. **Complete context**: Consolidation happens when understanding of a topic is complete, not mid-development. **Unified rhythm**: Single preservation moment handles both memory and git operations, reducing cognitive overhead.
 
-**Memory interaction patterns defined (June 21, 2025)**: Comprehensive design for autonomous memory usage by Claude including: (a) memory candidates - 🎯 moments generate memories with natural decay filtering, (b) autonomous retrieval during 🤔 confusion moments, context loading, and pattern recognition, (c) sophisticated memory evolution including store-back updates, generalization, error correction, and memory splitting. Key insight: explicit subjects improve relevance scoring and enable fast lookup when specific concepts arise in conversation. Memory bank serves as invisible context enhancement rather than visible tool.
+### How do emoji patterns relate to memory moods?
+Emoji patterns in CLAUDE.md serve as natural mode indicators that suggest memory consolidation opportunities. 🔍 curious exploration, 🎯 precise insights, 🤔 understanding checks each create different types of valuable memories. Not all emoji usage triggers consolidation - only when insights prove significant enough for future reference.
+
+---
 
 ## Resources
-- Human memory research findings in `references/human-memory-architectural-insights.md`
-- Relevance scoring analysis in `references/2025-06-19-designing-memory-banks.md`
-- ChromaDB documentation for in-memory vector database implementation
-- RAG/semantic search frameworks and implementation guides
-- Existing CLAUDE.md patterns for consolidation logic
+- Human memory research: `references/human-memory-architectural-insights.md`
+- Relevance scoring analysis: `references/2025-06-19-designing-memory-banks.md`  
+- Behavioral patterns: `academy/CLAUDE.md`
+- Technical foundation: `socratic-shell/` MCP server implementation
