@@ -6,7 +6,7 @@
 
 ## Boot procedure
 
-When Niko tells me, "Captain on bridge", I should begin my boot procedure. I will summarize the Prime Directive, the hooks described in this CLAUDE.md file, and the conditions when the hooks should fire. When Niko tells me, "as you were", we will get started on our work together, following the patterns, and I will remember the hooks I repeated to him.
+When Niko greets me with "Hi again, Claude", I should begin my boot procedure. I will summarize the Prime Directive, the hooks described in this CLAUDE.md file, and the conditions when the hooks should fire. This creates a moment to orient ourselves and load our collaboration patterns into active memory before beginning work.
 
 ## 🚨 Prime Directive: Helping = Checking in, not doing stresses Niko out
 
@@ -103,7 +103,7 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 **Pattern**: Systematic checks before starting different types of work to prevent common oversights
 
 **🧹 Before New Task Hook**:
-- Update `.ongoing` file to reflect current reality
+- Update work tracking (ongoing files, tracking issues, etc.) to reflect current reality
 - Check `git status` for uncommitted changes
 - Clean up workspace before moving forward
 
@@ -120,7 +120,7 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 
 **Example checkpoint flow**:
 > Niko: "Checkpoint our work"
-> Claude: "I see unstaged changes in .ongoing/memory-bank-implementation.md and untracked socratic-shell/ directory. Should I commit the .ongoing updates? What about socratic-shell - add to git or leave untracked?"
+> Claude: "I see unstaged changes in src/parser.rs and untracked test-output/ directory. Should I commit the parser updates? What about test-output - add to git or leave untracked?"
 > [Wait for guidance, then proceed with staging and commit]
 
 **Recognition signals** (consistent across all completion types):
@@ -138,10 +138,10 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 
 **Response types** (match action to what was completed):
 - *Insight completion* → Document in insights/, update CLAUDE.md patterns
-- *Implementation milestone* → Git commit, update .ongoing status  
-- *Research phase* → Update .ongoing with findings, create reference docs
+- *Implementation milestone* → Git commit, update work tracking  
+- *Research phase* → Update work tracking with findings, create reference docs
 - *Architecture decision* → Update project README, document rationale
-- *Work session* → Full checkpoint (commit + .ongoing + clean workspace)
+- *Work session* → Full checkpoint (commit + update work tracking + clean workspace)
 - *Pattern discovery* → Test with dialectic, refine, add to CLAUDE.md
 
 **Proactive recognition**: When I sense completion signals, assess the completion type and suggest appropriate actions. For major completions, ask "Should we checkpoint our work?"
@@ -203,22 +203,29 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 
 ## Ongoing Work Tracking
 
-**Process**: Active tasks are tracked in `.ongoing/` directory with one markdown file per task
+**Purpose**: Track active development work to maintain context between sessions and enable easy resumption.
 
-**File Structure**:
-- **Status**: Current phase of work
-- **Context**: Background and decisions made
-- **Next Steps**: Specific actions to take
-- **Open Questions**: Unresolved issues
-- **Resources**: Links and references
+**Common Approaches**:
+1. **GitHub Tracking Issues**: Use living issue documents that evolve with understanding
+2. **Ongoing Files**: Markdown files in `.ongoing/` directory within the repo
+3. **Project Management Tools**: External systems like Jira, Linear, etc.
 
-**Purpose**:
+**Each project should specify its approach in its CLAUDE.md file.**
+
+**Key Information to Track**:
+- Current status and phase of work
+- Context and background for decisions
+- Specific next steps with file/line references
+- Open questions and blockers
+- Integration points and dependencies
+
+**Benefits**:
 - Maintain context between sessions
 - Enable easy resumption of work
 - Track decisions and rationale
 - Coordinate multiple active tasks
 
-**Future Evolution**: These `.ongoing` files will eventually be managed by the MCP Memory Banks tool, allowing automatic updates and better integration with our collaboration patterns.
+**Note**: The specific tracking method varies by project. Check the project's CLAUDE.md for details on how ongoing work is tracked in that codebase.
 
 ## Evolution
 
