@@ -168,6 +168,11 @@
 - **Task agents inherit full CLAUDE.md context**: Important discovery about how Claude tools maintain behavioral consistency
 - **Natural checkpoint moments**: "Can't keep it all in my head" signals natural consolidation boundary
 - **Review-first approach**: Early implementation should propose updates for user review to build consolidation rules
+- **Cognitive pressure as consolidation trigger**: The feeling of "juggling too many insights" or mentally rehearsing to keep ideas alive signals need for autonomous consolidation. Key indicators:
+  - Starting to lose earlier threads while processing new information
+  - Internal summarizing to maintain coherence
+  - The thought "that's important, I don't want to lose that"
+  - Feeling that recall requires effort due to working memory load
 
 ## Open Questions
 
