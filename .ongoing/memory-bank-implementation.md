@@ -73,10 +73,17 @@
 - Short-term memories form frequently, only reinforced patterns become long-term
 
 **Autonomous Retrieval Triggers** (When to Look for Memories):
-- **🤔 Confusion moments**: Unfamiliar terms/concepts that feel familiar
+- **🤔 Confusion moments**: Unfamiliar terms/concepts that feel familiar - that nagging sense of "I should know this"
+- **🔍 Curiosity moments**: "I wonder if I know something about this" - exploratory interest rather than urgent need
 - **Context loading**: Session start, new topic emergence, explicit connections
-- **Pattern recognition**: "This feels familiar" situations
-- **Assumption checking**: Before suggesting approaches
+- **Pattern recognition**: "This feels familiar" situations - déjà vu without clear recall
+- **Assumption checking**: Before suggesting approaches - proactive verification rather than reactive confusion
+
+**Consolidation Triggers** (When to Store New Memories):
+- **💡 Fresh insights**: "Fascinating! This changes things" - discoveries that shift understanding
+- **🎯 Cognitive pressure**: Feeling of "juggling too many insights" or mentally rehearsing to keep ideas alive
+- **🔗 Pattern connections**: When disparate concepts suddenly link together
+- **⚡ Meta-realizations**: Insights about the collaboration or thinking process itself
 
 **Memory Evolution Patterns** (How to Update):
 - **Store-back**: Add new insights to existing memories about same topics
@@ -173,6 +180,7 @@
   - Internal summarizing to maintain coherence
   - The thought "that's important, I don't want to lose that"
   - Feeling that recall requires effort due to working memory load
+- **Curiosity as distinct retrieval trigger**: Curiosity ("I wonder if I know something about this") differs from confusion ("I should know this but don't"). Curiosity is exploratory and forward-looking, while confusion is remedial and backward-looking. Both should trigger read_in but with different query formulations.
 
 ## Open Questions
 
