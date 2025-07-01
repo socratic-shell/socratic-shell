@@ -1,0 +1,21 @@
+{
+  "name": "socratic-shell-test-harness",
+  "version": "1.0.0",
+  "description": "Test harness for memory bank implementation using Claude Code interaction",
+  "type": "module",
+  "main": "dist/memory_test_harness.js",
+  "dependencies": {
+    "node-pty": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "tsx": "^4.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx src/memory_test_harness.ts",
+    "test:debug": "tsx --inspect src/memory_test_harness.ts",
+    "dev": "tsx --watch src/memory_test_harness.ts"
+  }
+}
