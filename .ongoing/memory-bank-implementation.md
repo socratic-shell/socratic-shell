@@ -1,7 +1,7 @@
 # Socratic Shell Memory Bank - Living Design Document
 
-**Status**: Design Complete - Ready for Implementation  
-**Last Updated**: 2025-06-22
+**Status**: Design Complete - Implementation Started  
+**Last Updated**: 2025-07-01
 
 ## Core Goal
 **Intelligent context curation**: Scale gracefully as our collaborative knowledge base grows, naturally retaining important facts while discarding extraneous detail. The system should surface the right information at the right time, handling context accumulation in a way that enhances rather than overwhelms collaboration.
@@ -131,6 +131,7 @@
 - [ ] **Implement consolidate/read_in/store_back operations**
 - [ ] **Basic conflict detection and error handling**
 - [ ] **Refine conflict resolution criteria** - decision framework for when to apply additive merge vs. generalization vs. splitting vs. error correction
+- [ ] **Create test harness** - Extract real conversation moments to test memory operation triggers
 
 ### Phase 2: Intelligence Layer
 - [ ] **Two-stage retrieval implementation** (BM25 + semantic reranking)
@@ -145,6 +146,28 @@
 ### Phase 4: Expansion
 - [ ] **Replace manual .ongoing files** with memory bank storage
 - [ ] **Cross-project memory sync** and inheritance patterns
+
+## Recent Discoveries (2025-07-01)
+
+### Consolidation Strategy Insights
+- **Hybrid approach**: Both autonomous consolidation (for fresh insights) and checkpoint-triggered (for conversation patterns)
+- **Factual memories preferred**: Keep memories as factual records rather than generalizations - let synthesis happen in context
+- **Subject overlap as primary signal**: When new insights share subjects with existing memories, consider consolidation
+- **Conflict resolution approach**: Replace old memory with new + correction note; review with user when uncertain
+- **Self-referential system**: Consolidation rules themselves become memories that evolve through use
+
+### Test Harness Approach
+- **Extract from real conversations**: Use actual conversation moments rather than artificial scenarios
+- **Key test scenarios identified**:
+  - Task tool discovery moment (should trigger consolidation)
+  - Confusion about unfamiliar terms (should trigger read_in)
+  - Checkpoint moments (should trigger review and consolidation)
+- **Test structure**: Setup → Context recreation → Trigger moment → Evaluation
+
+### Implementation Insights
+- **Task agents inherit full CLAUDE.md context**: Important discovery about how Claude tools maintain behavioral consistency
+- **Natural checkpoint moments**: "Can't keep it all in my head" signals natural consolidation boundary
+- **Review-first approach**: Early implementation should propose updates for user review to build consolidation rules
 
 ## Open Questions
 
