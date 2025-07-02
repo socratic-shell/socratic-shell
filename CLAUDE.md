@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+@prompts/project/ongoing-work-tracking.md
+@prompts/project/ai-insights.md
+
 ## Project Overview
 
 Socratic Shell is a research experiment in deliberate AI-human collaboration design. It consists of two main MCP (Model Context Protocol) servers that enable structured collaboration patterns and pattern testing.
