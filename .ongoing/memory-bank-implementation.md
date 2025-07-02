@@ -1,7 +1,7 @@
 # Socratic Shell Memory Bank - Living Design Document
 
-**Status**: Design Complete - Implementation Started  
-**Last Updated**: 2025-07-01
+**Status**: Design Complete - Test Harness Ready  
+**Last Updated**: 2025-07-01 (Test harness implemented)
 
 ## Core Goal
 **Intelligent context curation**: Scale gracefully as our collaborative knowledge base grows, naturally retaining important facts while discarding extraneous detail. The system should surface the right information at the right time, handling context accumulation in a way that enhances rather than overwhelms collaboration.
@@ -138,7 +138,7 @@
 - [ ] **Implement consolidate/read_in/store_back operations**
 - [ ] **Basic conflict detection and error handling**
 - [ ] **Refine conflict resolution criteria** - decision framework for when to apply additive merge vs. generalization vs. splitting vs. error correction
-- [ ] **Create test harness** - Extract real conversation moments to test memory operation triggers
+- [x] **Create test harness** - Python SDK-based test harness for memory operation triggers (completed 2025-07-01)
 
 ### Phase 2: Intelligence Layer
 - [ ] **Two-stage retrieval implementation** (BM25 + semantic reranking)
@@ -163,18 +163,21 @@
 - **Conflict resolution approach**: Replace old memory with new + correction note; review with user when uncertain
 - **Self-referential system**: Consolidation rules themselves become memories that evolve through use
 
-### Test Harness Approach
-- **Extract from real conversations**: Use actual conversation moments rather than artificial scenarios
-- **Key test scenarios identified**:
-  - Task tool discovery moment (should trigger consolidation)
-  - Confusion about unfamiliar terms (should trigger read_in)
-  - Checkpoint moments (should trigger review and consolidation)
-- **Test structure**: Setup → Context recreation → Trigger moment → Evaluation
+### Test Harness Implementation ✅
+- **Python SDK approach**: Clean API interaction without terminal emulation complexity
+- **Test location**: `/test/memory_test_harness.py` using `claude-code-sdk`
+- **Key test scenarios implemented**:
+  - Boot procedure detection (Prime Directive, Make it so, hooks, completion patterns)
+  - Consolidation trigger testing (complex multi-step tasks)
+  - Memory retrieval testing (context recall across conversations)
+- **Test results**: Successfully detects collaboration patterns and memory triggers
+- **Run command**: `cd test && uv run python memory_test_harness.py`
 
 ### Implementation Insights
 - **Task agents inherit full CLAUDE.md context**: Important discovery about how Claude tools maintain behavioral consistency
 - **Natural checkpoint moments**: "Can't keep it all in my head" signals natural consolidation boundary
 - **Review-first approach**: Early implementation should propose updates for user review to build consolidation rules
+- **Test harness evolution**: Started with Python pexpect (terminal automation issues) → Node.js/TypeScript node-pty (worked but complex) → Python SDK (clean, reliable, ecosystem aligned)
 - **Cognitive pressure as consolidation trigger**: The feeling of "juggling too many insights" or mentally rehearsing to keep ideas alive signals need for autonomous consolidation. Key indicators:
   - Starting to lose earlier threads while processing new information
   - Internal summarizing to maintain coherence
