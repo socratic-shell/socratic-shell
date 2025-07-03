@@ -1,7 +1,7 @@
 # Socratic Shell Memory Bank - Living Design Document
 
-**Status**: Design Complete - Test Harness Ready  
-**Last Updated**: 2025-07-01 (Test harness implemented)
+**Status**: In Progress - Need flexible test system  
+**Last Updated**: 2025-07-03
 
 ## Core Goal
 **Intelligent context curation**: Scale gracefully as our collaborative knowledge base grows, naturally retaining important facts while discarding extraneous detail. The system should surface the right information at the right time, handling context accumulation in a way that enhances rather than overwhelms collaboration.
@@ -138,7 +138,7 @@
 - [ ] **Implement consolidate/read_in/store_back operations**
 - [ ] **Basic conflict detection and error handling**
 - [ ] **Refine conflict resolution criteria** - decision framework for when to apply additive merge vs. generalization vs. splitting vs. error correction
-- [x] **Create test harness** - Python SDK-based test harness for memory operation triggers (completed 2025-07-01)
+- [ ] **Create flexible test system** - Transcript-based testing with expected behavior validation
 
 ### Phase 2: Intelligence Layer
 - [ ] **Two-stage retrieval implementation** (BM25 + semantic reranking)
@@ -163,15 +163,18 @@
 - **Conflict resolution approach**: Replace old memory with new + correction note; review with user when uncertain
 - **Self-referential system**: Consolidation rules themselves become memories that evolve through use
 
-### Test Harness Implementation ✅
-- **Python SDK approach**: Clean API interaction without terminal emulation complexity
+### Test Harness Status
+- **Basic concept proven**: Python SDK approach works for testing memory triggers
 - **Test location**: `/test/memory_test_harness.py` using `claude-code-sdk`
-- **Key test scenarios implemented**:
-  - Boot procedure detection (Prime Directive, Make it so, hooks, completion patterns)
-  - Consolidation trigger testing (complex multi-step tasks)
-  - Memory retrieval testing (context recall across conversations)
-- **Test results**: Successfully detects collaboration patterns and memory triggers
-- **Run command**: `cd test && uv run python memory_test_harness.py`
+- **Current limitation**: Hardcoded test scenarios in Python script
+- **Need**: Flexible system for supplying example transcripts and testing results
+
+### Test System Requirements (Current Task)
+- **Transcript-based testing**: Supply conversation examples as test inputs
+- **Expected behavior validation**: Specify what memory operations should occur
+- **Flexible test scenarios**: Easy to add new test cases without modifying code
+- **Result verification**: Check that correct memories are consolidated/retrieved
+- **Pattern evolution testing**: Verify memory updates and conflict resolution
 
 ### Implementation Insights
 - **Task agents inherit full CLAUDE.md context**: Important discovery about how Claude tools maintain behavioral consistency
