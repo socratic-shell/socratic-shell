@@ -19,14 +19,33 @@ from claude_code_sdk import query, AssistantMessage, TextBlock, ToolUseBlock
 
 @dataclass
 class ToolExpectation:
-    """Expected tool usage with parameter validation rules."""
+    """
+    Expected tool usage with parameter validation rules.
+    
+    Attributes:
+        tool: Name of the tool that should be called (e.g., 'Bash', 'mcp__socratic-shell__consolidate')
+        parameters: Optional validation rules for tool parameters. Can be:
+            - Dict with 'should_contain' key for substring matching
+            - Dict with 'should_be' key for exact matching
+            - Direct value for simple equality check
+            Example: {'content': {'should_contain': ['JWT', 'tokens']},
+                     'category': 'technical-insight'}
+    """
     tool: str
-    parameters: Optional[Dict[str, Any]] = None  # Parameter validation rules
+    parameters: Optional[Dict[str, Any]] = None
 
 
 @dataclass
 class TestCase:
-    """A complete test case loaded from YAML."""
+    """
+    A complete test case loaded from YAML.
+    
+    Attributes:
+        name: Short descriptive name for the test case
+        description: Longer explanation of what the test validates
+        tags: Optional list of tags for categorizing tests (e.g., ['memory', 'consolidation'])
+        conversation: List of conversation steps to execute in order
+    """
     name: str
     description: str
     tags: List[str]
@@ -35,10 +54,25 @@ class TestCase:
 
 @dataclass
 class ConversationStep:
-    """A single step in a test conversation loaded from YAML."""
+    """
+    A single step in a test conversation loaded from YAML.
+    
+    Each step represents one user message and the expected LLM behavior.
+    
+    Attributes:
+        user_message: The message sent to the LLM in this conversation step
+        response_should_contain: Phrases that must appear in the LLM's response
+            Example: ['listening', 'tell me more']
+        response_should_not_contain: Phrases that must NOT appear in the LLM's response
+            Example: ['I'll help you set up', 'Let me check']
+        expected_tools: Tools we expect the LLM to call (or not call) in this step.
+            Empty list means no tools should be called.
+            Each ToolExpectation can specify parameter validation rules.
+    """
     user_message: str
-    expected_response: Dict[str, List[str]]
-    expected_tools: List[ToolExpectation]
+    response_should_contain: List[str] = None
+    response_should_not_contain: List[str] = None
+    expected_tools: List[ToolExpectation] = None
 
 
 @dataclass
@@ -49,25 +83,46 @@ class TestResult:
     This captures what happened when we sent a message to the LLM and 
     validated the response against our YAML test expectations. It's the
     "report card" for one step in a conversation test.
+    
+    Attributes:
+        success: Did the LLM response pass all validations?
+        found_phrases: Required phrases that were found in response
+        missing_phrases: Required phrases that were missing from response
+        unexpected_phrases: Forbidden phrases that appeared in response
+        found_tools: Expected tools that were called with correct parameters
+        invalid_tools: Expected tools that were called with wrong parameters
+        missing_tools: Expected tools that were not called
+        unexpected_tools: Tools that were called but not expected
+            (includes full tool info: {'tool': name, 'parameters': {...}})
+        response_text: Full LLM response text for debugging
+        response_length: Length of response in characters
     """
-    success: bool                        # Did the LLM response pass all validations?
-    found_phrases: List[str]             # Required phrases that were found in response
-    missing_phrases: List[str]           # Required phrases that were missing from response  
-    unexpected_phrases: List[str]        # Forbidden phrases that appeared in response
-    found_tools: List[ToolExpectation]   # Expected tools that were called with correct parameters
-    invalid_tools: List[ToolExpectation] # Expected tools that were called with wrong parameters  
-    missing_tools: List[ToolExpectation] # Expected tools that were not called
-    unexpected_tools: List[Dict[str, Any]] # Tools that were called but not expected
-    response_text: str                   # Full LLM response text for debugging
-    response_length: int                 # Length of response in characters
+    success: bool
+    found_phrases: List[str]
+    missing_phrases: List[str]
+    unexpected_phrases: List[str]
+    found_tools: List[ToolExpectation]
+    invalid_tools: List[ToolExpectation]
+    missing_tools: List[ToolExpectation]
+    unexpected_tools: List[Dict[str, Any]]
+    response_text: str
+    response_length: int
 
 
 class DialecticRunner:
-    """YAML-based test runner for prompt engineering validation."""
+    """
+    YAML-based test runner for prompt engineering validation.
+    
+    Attributes:
+        results: Accumulates TestResult objects from all conversation steps executed.
+            Used for final summary statistics and debugging.
+    """
+    
+    results: List[TestResult]
     
     def __init__(self):
         """Initialize the test runner."""
-        self.results: List[TestResult] = []
+        self.results = []
     
     def load_test_case(self, yaml_path: Path) -> TestCase:
         """Load a test case from a YAML file."""
@@ -93,7 +148,8 @@ class DialecticRunner:
             
             step = ConversationStep(
                 user_message=step_data['user'],
-                expected_response=expected_response,
+                response_should_contain=expected_response.get('should_contain', []),
+                response_should_not_contain=expected_response.get('should_not_contain', []),
                 expected_tools=expected_tools
             )
             conversation.append(step)
@@ -169,15 +225,12 @@ class DialecticRunner:
         print(f"🤖 Assistant: {response_text[:200]}{'...' if len(response_text) > 200 else ''}")
         
         # Validate response content
-        should_contain = step.expected_response.get('should_contain', [])
-        should_not_contain = step.expected_response.get('should_not_contain', [])
-        
         found_phrases = []
         missing_phrases = []
         unexpected_phrases = []
         
         # Check required phrases
-        for phrase in should_contain:
+        for phrase in (step.response_should_contain or []):
             if phrase.lower() in response_text.lower():
                 found_phrases.append(phrase)
                 print(f"✅ Found required: '{phrase}'")
@@ -186,7 +239,7 @@ class DialecticRunner:
                 print(f"❌ Missing required: '{phrase}'")
         
         # Check forbidden phrases
-        for phrase in should_not_contain:
+        for phrase in (step.response_should_not_contain or []):
             if phrase.lower() in response_text.lower():
                 unexpected_phrases.append(phrase)
                 print(f"❌ Found forbidden: '{phrase}'")
