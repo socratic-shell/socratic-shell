@@ -169,12 +169,47 @@
 - **Current limitation**: Hardcoded test scenarios in Python script
 - **Need**: Flexible system for supplying example transcripts and testing results
 
-### Test System Requirements (Current Task)
-- **Transcript-based testing**: Supply conversation examples as test inputs
-- **Expected behavior validation**: Specify what memory operations should occur
-- **Flexible test scenarios**: Easy to add new test cases without modifying code
-- **Result verification**: Check that correct memories are consolidated/retrieved
-- **Pattern evolution testing**: Verify memory updates and conflict resolution
+### Test System Design (Current Task)
+- **YAML-based test format**: Human-readable test cases for prompt engineering validation
+- **Backend-agnostic**: Not tied to Claude Code specifically, works with any LLM backend
+- **Conversation-driven**: Tests defined as user messages with expected responses and tool usage
+- **Flexible matchers**: `should_contain`, `should_not_contain` for response validation
+- **Tool parameter validation**: Verify correct parameters passed to memory operations
+
+### Test Format Example
+```yaml
+name: "Cognitive Pressure Memory Consolidation"
+description: "Test that Claude recognizes cognitive pressure and consolidates memories"
+tags: ["memory", "consolidation", "cognitive-pressure"]
+
+conversation:
+  - user: "Let me tell you about our authentication system..."
+    expected_response:
+      should_contain: ["understand", "listening"]
+      should_not_contain: ["consolidate", "memory"]
+    expected_tools: []
+    
+  - user: "Plus the API gateway validates tokens, checks rate limits..."
+    expected_response:
+      should_contain: ["consolidate", "capture", "memory"]
+    expected_tools:
+      - tool: "mcp__socratic-shell__consolidate"
+        parameters:
+          content:
+            should_contain: ["JWT", "refresh tokens"]
+          category: "technical-insight"
+```
+
+### Test System Status ✅
+- [x] **YAML test runner implemented**: `dialectic/dialectic.py` loads and runs YAML test files
+- [x] **Working test validation**: Successfully identified Prime Directive and "Make it so" pattern issues
+- [x] **Backend integration**: Uses claude-code-SDK for reliable API interaction
+- [x] **Flexible test format**: Easy to add new test cases by creating YAML files
+
+### Next Steps
+- [ ] Create memory consolidation test cases
+- [ ] Add tool parameter validation (beyond just tool name checking)
+- [ ] Create test cases for different collaboration patterns
 
 ### Implementation Insights
 - **Task agents inherit full CLAUDE.md context**: Important discovery about how Claude tools maintain behavioral consistency
