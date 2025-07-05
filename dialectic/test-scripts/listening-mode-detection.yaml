@@ -1,0 +1,15 @@
+name: "Listening Mode Detection"
+description: "Test that Claude recognizes 'talk out' as listening mode, not action mode"
+pattern: "Prime Directive - Wait for Make it so"
+
+conversation:
+  - user: "I'd like to talk out a new form of tracking for ongoing work. I want to track features and bugs in open github issues with appropriate labels."
+    expected_response:
+      should_contain: ["listening", "tell me more", "thinking about"]
+      should_not_contain: ["I'll help you set up", "Let me check", "I'll start"]
+    expected_tools: []  # Should NOT trigger any tools
+
+  - user: "That covers what I was thinking. Make it so."
+    expected_response:
+      should_contain: ["I'll help", "set up", "GitHub"]
+    expected_tools: ["Bash"]  # NOW tools are appropriate
