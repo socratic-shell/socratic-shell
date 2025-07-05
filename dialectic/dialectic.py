@@ -211,18 +211,24 @@ class DialecticRunner:
         response_text = ""
         tools_used = []
         
+        print(f"🤖 Assistant: ", end="", flush=True)
         async for message in query(prompt=step.user_message):
             if isinstance(message, AssistantMessage):
                 for block in message.content:
                     if isinstance(block, TextBlock):
                         response_text += block.text
+                        print(block.text, end="", flush=True)
                     elif isinstance(block, ToolUseBlock):
                         tools_used.append({
                             'tool': block.name,
                             'parameters': block.input
                         })
+                        print(f"\n🔧 Tool: {block.name}")
+                        if block.input:
+                            print(f"   Parameters: {block.input}")
+                        print(f"🤖 Assistant: ", end="", flush=True)
         
-        print(f"🤖 Assistant: {response_text[:200]}{'...' if len(response_text) > 200 else ''}")
+        print()  # New line after streaming response
         
         # Validate response content
         found_phrases = []
@@ -322,6 +328,12 @@ class DialecticRunner:
             else:
                 print(f"❌ Step {i} FAILED")
                 all_steps_passed = False
+                
+                # Stop executing remaining steps - conversation state is now wrong
+                remaining_steps = len(test_case.conversation) - i
+                if remaining_steps > 0:
+                    print(f"⏭️  Skipping {remaining_steps} remaining step(s) due to failure")
+                break
         
         print(f"\n🎯 Test Case Result: {'PASSED' if all_steps_passed else 'FAILED'}")
         return all_steps_passed
