@@ -33,3 +33,7 @@ The memory bank operates through three core operations:
 These operations integrate seamlessly with existing collaboration patterns, using natural conversation signals (from CLAUDE.md) as triggers rather than requiring explicit memory management.
 
 The system follows biological memory principles: frequent consolidation with natural decay, context-dependent retrieval, and intelligent forgetting that preserves signal while discarding noise.
+
+## Testing tool
+
+The dialectic testing tool is used 

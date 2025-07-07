@@ -16,6 +16,11 @@
 - [Vision and goals](./memory-bank/README.md)
 - [Design Foundation](./memory-bank/design-foundation.md)
 - [Current State](./memory-bank/current-state.md)
+- [Frequently asked questions](./memory-bank/faq.md)
+
+# Dialectic
+
+- [Introduction](./dialectic/README.md)
 
 # Appendices
 
