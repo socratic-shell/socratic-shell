@@ -2,9 +2,9 @@
 
 - [Introduction](introduction.md)
 
-# Emotive prompting
+# Empathic prompting
 
-- [Emotive prompting](./emotive.md)
+- [Empathic prompting](./empathic.md)
 - [User prompt](./prompts/user/README.md)
 - [Per-project prompts](./prompts/project/README.md)
     - [AI Insight comments](./prompts/project/ai-insights.md)

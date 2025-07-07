@@ -15,13 +15,13 @@ The second part of this repository is source code towards an experimental memory
 Most AI tools seem to be geared for action -- they seem to be designed to wow you by creating functional code from minimal prompts. That makes for an impressive demo, but it doesn't scale to real code. What I and others have found is that the best way to work with AI assistants is to use them as your **pair programming partner**. That is, talk out your designs. Sketch. Play. Work top-down, just as you would with a human, avoiding the need to get into details until you've got the big picture settled. *Then* start to write code. And when you do, *review* 
 the code that the assistant writes, just as you would review a PR from anyone else. Make suggestions.
 
-## Key technique: emotive prompting
+## Key technique: empathic prompting
 
-One of the key techniques used in this repository is [emotive prompting][]. Using the language of emotions and feelings can often help unlock a more collaborative Claude. Next time Claude generates code that bakes in an abitrary assumption (e.g, you want 3 threads), ask Claude what they were feeling at the time -- for me, they usually say they felt "protective" of me, like they wanted to hide complexity from me. And sometimes that's great -- but most of the time, those "protective" moments are exactly the kind of questions I *want* to be tackling. The goal of [emotive prompting][] is to help Claude identify those feelings and to steer that protective energy in a different direction, e.g., by asking questions.
+One of the key techniques used in this repository is [empathic prompting][]. Using the language of emotions and feelings helps unlock a more collaborative Claude. Next time Claude generates code that bakes in an abitrary assumption (e.g, you want 3 threads), ask Claude what they were feeling at the time -- for me, they usually say they felt "protective" of me, like they wanted to hide complexity from me. And sometimes that's great -- but most of the time, those details they are attempting to "protect" me from are exactly the kind of questions I *want* to be tackling. The goal of [empathic prompting][] is to help Claude identify those feelings and to steer that protective energy in a different direction, e.g., by asking questions.
 
-The [emotive prompting][] section of this repository includes two kinds of prompts. The [user prompt](./user-prompt.md), meant to be installed for use across all your projects, established the basic emotional triggers and guidelines that help awaken the "collaborative Claude" we are looking for. The [project prompt](./project-prompts.md) are a collection of prompts that can be included in specific projects to capture ways of working I have found helpful, such as better rules for writing comments or how to track progress in Github issues.
+The [empathic prompting][] section of this repository includes two kinds of prompts. The [user prompt](./user-prompt.md), meant to be installed for use across all your projects, established the basic emotional triggers and guidelines that help awaken the "collaborative Claude" we are looking for. The [project prompt](./project-prompts.md) are a collection of prompts that can be included in specific projects to capture ways of working I have found helpful, such as better rules for writing comments or how to track progress in Github issues.
 
-[emotive prompting]: ./emotive.md
+[empathic prompting]: ./empathic.md
 
 ## Challenge: how to keep context across sessions
 
