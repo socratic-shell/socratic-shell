@@ -20,19 +20,11 @@ mkdir -p "$CLAUDE_DIR"
 # Create CLAUDE.md if it doesn't exist
 if [[ ! -f "$CLAUDE_FILE" ]]; then
     echo "Creating new $CLAUDE_FILE"
-    cat > "$CLAUDE_FILE" << 'EOF'
-# Personal Claude Configuration
-
-# Socratic Shell Collaboration Patterns
-@REPO_ROOT/prompts/user/main.md
-
-EOF
-else
-    echo "Found existing $CLAUDE_FILE"
+    touch "$CLAUDE_FILE"
 fi
 
 # Check if socratic-shell patterns are already referenced
-if grep -q "socratic-shell" "$CLAUDE_FILE" && grep -q "main.md" "$CLAUDE_FILE"; then
+if grep -q "socratic-shell" "$CLAUDE_FILE" && grep -q "prompts/user/main.md" "$CLAUDE_FILE"; then
     echo "⚠️  Socratic-shell patterns already appear to be installed in $CLAUDE_FILE"
     echo "Please review manually to avoid duplicates."
     exit 1
@@ -41,11 +33,11 @@ fi
 # Add import line
 echo "" >> "$CLAUDE_FILE"
 echo "# Socratic Shell Collaboration Patterns" >> "$CLAUDE_FILE"
-echo "@$REPO_ROOT/prompts/user/main.md" >> "$CLAUDE_FILE"
+echo "@$REPO_ROOT/src/prompts/user/main.md" >> "$CLAUDE_FILE"
 
 echo "✅ Successfully added socratic-shell patterns to $CLAUDE_FILE"
 echo ""
 echo "The following import was added:"
-echo "  @$REPO_ROOT/prompts/user/main.md"
+echo "  @$REPO_ROOT/src/prompts/user/main.md"
 echo ""
 echo "To uninstall, remove the socratic-shell lines from $CLAUDE_FILE"

@@ -5,6 +5,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 @prompts/project/ongoing-work-tracking.md
 @prompts/project/ai-insights.md
 
+## Memory Bank Design Context
+
+### Maintenance & Workflow
+This mdBook content must be kept current as design evolves. "Checkpoint our work" includes:
+- Updating Current Design State with new insights/discoveries  
+- Moving completed items from Open Questions to Key Design Decisions
+- Documenting any design pivots or new principles discovered
+
+See project conventions:
+- GitHub tracking: @prompts/project/github-tracking-issues.md
+- Code documentation: @prompts/project/ai-insights.md
+
+### Vision & Goals
+@src/introduction.md
+
+### Design Foundation  
+@src/design-foundation.md
+
+### Current Design State
+@src/current-state.md
+(Check this section for latest open questions and discoveries)
+
+### Full Documentation
+@src/SUMMARY.md
+(Complete architecture, implementation details, research archive)
+
 ## Project Overview
 
 Socratic Shell is a research experiment in deliberate AI-human collaboration design. It consists of two main MCP (Model Context Protocol) servers that enable structured collaboration patterns and pattern testing.

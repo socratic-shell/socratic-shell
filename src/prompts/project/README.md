@@ -1,6 +1,8 @@
 # Project Collaboration Patterns
 
-This directory contains collaboration patterns designed to be shared across project teams.
+This directory contains collaboration patterns designed to be installed per project.
+
+The installation step imports these scripts into your repository and includes a script that can be used to synchronize the files in your repository with the "main copies" found in the github repository.
 
 ## Installation
 

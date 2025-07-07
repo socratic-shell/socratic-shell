@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Socratic Shell Project Patterns Installer
 # Syncs team collaboration patterns from GitHub to .socratic-shell/
-# Usage: curl https://raw.githubusercontent.com/nikomatsakis/socratic-shell/main/prompts/project/install.sh | bash
+# Usage: curl https://raw.githubusercontent.com/nikomatsakis/socratic-shell/main/src/prompts/project/install.sh | bash
 
 REPO_OWNER="nikomatsakis"
 REPO_NAME="socratic-shell"
@@ -52,9 +52,9 @@ if [[ "$old_hash" == "$new_hash" ]]; then
     exit 0
 fi
 
-# Get list of .md files in prompts/project/
+# Get list of .md files in src/prompts/project/
 echo "🔍 Fetching file list from GitHub..."
-file_list=$(curl -s "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/contents/prompts/project?ref=$new_hash" | \
+file_list=$(curl -s "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/contents/src/prompts/project?ref=$new_hash" | \
     python3 -c "
 import sys, json
 try:
@@ -81,7 +81,7 @@ if [[ -n "$old_hash" ]]; then
         local_file="$TARGET_DIR/$file"
         if [[ -f "$local_file" ]]; then
             # Get old upstream version and compare
-            old_content=$(curl -s "https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$old_hash/prompts/project/$file" 2>/dev/null || echo "")
+            old_content=$(curl -s "https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$old_hash/src/prompts/project/$file" 2>/dev/null || echo "")
             if [[ -n "$old_content" ]] && ! echo "$old_content" | diff -q - "$local_file" >/dev/null 2>&1; then
                 conflicts+=("$file")
             fi
@@ -93,7 +93,7 @@ fi
 echo "⬇️  Downloading files..."
 for file in $file_list; do
     echo "  - $file"
-    curl -s "https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$new_hash/prompts/project/$file" > "$TARGET_DIR/$file"
+    curl -s "https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$new_hash/src/prompts/project/$file" > "$TARGET_DIR/$file"
 done
 
 # Handle deletions (remove files that no longer exist upstream)
@@ -121,7 +121,7 @@ if [[ ${#conflicts[@]} -gt 0 ]]; then
         modified_file="conflict-$file-modified.md"
         
         # Get original version (from old commit)
-        curl -s "https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$old_hash/prompts/project/$file" > "$original_file"
+        curl -s "https://raw.githubusercontent.com/$REPO_OWNER/$REPO_NAME/$old_hash/src/prompts/project/$file" > "$original_file"
         
         # Get the version that was modified (from git history or backup)
         if git show "HEAD:$TARGET_DIR/$file" >/dev/null 2>&1; then
