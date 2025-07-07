@@ -13,8 +13,9 @@
 
 # Memory bank
 
-- [Design Foundation](design-foundation.md)
-- [Current State](current-state.md)
+- [Vision and goals](./memory-bank/README.md)
+- [Design Foundation](./memory-bank/design-foundation.md)
+- [Current State](./memory-bank/current-state.md)
 
 # Appendices
 
