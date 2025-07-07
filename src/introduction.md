@@ -29,7 +29,6 @@ This whole scheme works great -- right up until the context starts to run out, o
 
 Another critical thing is using *some* method to track your work: I've tried both task files in a [.ongoing directory](https://github.com/nikomatsakis/socratic-shell/blob/main/prompts/project/ongoing-work-tracking.md) and [issues on github](https://github.com/nikomatsakis/socratic-shell/blob/main/prompts/project/github-tracking-issues.md). I think I prefer github issues, but I still configure that per project. 
 
-This is where the experimental "memory bank [MCP server][]" comes in. My hope is that we can build something to help Claude remember across sessions more effectively. At the moment, this is more design than reality, and I have no idea how well it's going to work. The idea is to model human memory (inspired both by a book I recently read and some stray comments from Yehuda, whose done some similar experiments I think just using prompts). I'm not sure how it's going to work but the act of building it is helping me learn stuff, which is the main point.
+This is where the experimental ["memory bank MCP server"](./memory-bank/README.md) comes in. My hope is that we can build something to help Claude remember across sessions more effectively. At the moment, this is more design than reality, and I have no idea how well it's going to work. The idea is to model human memory (inspired both by a book I recently read and some stray comments from Yehuda, whose done some similar experiments I think just using prompts). I'm not sure how it's going to work but the act of building it is helping me learn stuff, which is the main point.
 
-[MCP server]: https://modelcontextprotocol.io/introduction
 
