@@ -225,12 +225,13 @@ class DialecticRunner:
             mcp_servers={
                 "memory-bank": {
                     "command": "uv",
-                    "args": ["run", "python", "-m", "memory_bank"],
+                    "args": ["--directory", "/home/nikomatsakis/dev/socratic-shell/memory-bank", "run", "python", "-m", "memory_bank"],
                     "env": {"SOCRATIC_SHELL_LOG": "/tmp/socratic-debug.log"}
                 },
                 "dialectic-auth": {
                     "command": "uv", 
-                    "args": ["run", "python", auth_server_path, "--expected-tools"] + expected_tool_names
+                    "args": ["run", "python", auth_server_path, "--expected-tools"] + expected_tool_names,
+                    "env": {"SOCRATIC_SHELL_LOG": "/tmp/socratic-debug.log"}
                 }
             },
             permission_prompt_tool_name="mcp__dialectic-auth__authorize",

@@ -22,8 +22,15 @@ from mcp.types import (
     Tool,
 )
 
-# Set up logging
-logging.basicConfig(level=logging.INFO)
+# Set up logging to shared debug file
+import os
+log_file = os.environ.get("SOCRATIC_SHELL_LOG", "/tmp/socratic-debug.log")
+logging.basicConfig(
+    level=logging.INFO,
+    filename=log_file,
+    filemode='a',
+    format='%(asctime)s [AUTH] %(levelname)s: %(message)s'
+)
 logger = logging.getLogger("dialectic-auth")
 
 server = Server("dialectic-auth")
