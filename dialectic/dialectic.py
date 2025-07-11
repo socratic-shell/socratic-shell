@@ -225,7 +225,7 @@ class DialecticRunner:
             mcp_servers={
                 "memory-bank": {
                     "command": "uv",
-                    "args": ["run", "python", "-m", "socratic_shell"],
+                    "args": ["run", "python", "-m", "memory_bank"],
                     "env": {"SOCRATIC_SHELL_LOG": "/tmp/socratic-debug.log"}
                 },
                 "dialectic-auth": {
