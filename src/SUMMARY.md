@@ -2,9 +2,9 @@
 
 - [Introduction](introduction.md)
 
-# Empathic prompting
+# Collaborative prompting
 
-- [Empathic prompting](./empathic.md)
+- [Collaborative prompting](./collaborative-prompting.md)
 - [User prompt](./prompts/user/README.md)
 - [Per-project prompts](./prompts/project/README.md)
     - [AI Insight comments](./prompts/project/ai-insights.md)

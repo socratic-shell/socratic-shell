@@ -1,4 +1,4 @@
-# Empathic prompting
+# Collaborative prompting
 
 This page covers the "prompt engineering" techniques used in this repository.
 
