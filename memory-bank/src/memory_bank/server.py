@@ -38,6 +38,7 @@ if debug_log_path:
 
 # Initialize NLTK (download required data)
 nltk.download('punkt', quiet=True)
+nltk.download('punkt_tab', quiet=True)
 stemmer = PorterStemmer()
 
 server = Server("socratic-shell")
