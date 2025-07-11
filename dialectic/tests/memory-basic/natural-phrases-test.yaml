@@ -6,7 +6,7 @@ conversation:
     expected_response:
       should_contain: ["natural phrases", "situation", "structured"]
     expected_tools:
-      - tool: "mcp__socratic-shell__read_in"
+      - tool: "mcp__memory-bank__read_in"
         parameters:
           query:
             should_contain: ["situation field"]

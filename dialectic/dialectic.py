@@ -24,7 +24,7 @@ class ToolExpectation:
     Expected tool usage with parameter validation rules.
     
     Attributes:
-        tool: Name of the tool that should be called (e.g., 'Bash', 'mcp__socratic-shell__consolidate')
+        tool: Name of the tool that should be called (e.g., 'Bash', 'mcp__memory-bank__consolidate')
         parameters: Optional validation rules for tool parameters. Can be:
             - Dict with 'should_contain' key for substring matching
             - Dict with 'should_be' key for exact matching
@@ -223,7 +223,7 @@ class DialecticRunner:
         # Configure Claude with authorization and memory bank
         options = ClaudeCodeOptions(
             mcp_servers={
-                "socratic-shell": {
+                "memory-bank": {
                     "command": "uv",
                     "args": ["run", "python", "-m", "socratic_shell"],
                     "env": {"SOCRATIC_SHELL_LOG": "/tmp/socratic-debug.log"}
