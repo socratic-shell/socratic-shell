@@ -12,6 +12,7 @@ authors = [
 dependencies = [
     "mcp",
     "pydantic",
+    "nltk",
 ]
 requires-python = ">=3.11"
 

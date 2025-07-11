@@ -10,11 +10,12 @@ import asyncio
 import argparse
 import glob
 import yaml
+import os
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 from pathlib import Path
 
-from claude_code_sdk import query, AssistantMessage, TextBlock, ToolUseBlock
+from claude_code_sdk import query, AssistantMessage, TextBlock, ToolUseBlock, ClaudeCodeOptions
 
 
 @dataclass
@@ -211,8 +212,34 @@ class DialecticRunner:
         response_text = ""
         tools_used = []
         
+        # Configure MCP servers for controlled test environment
+        auth_server_path = os.path.join(os.path.dirname(__file__), "dialectic-authorization.py")
+        
+        # Extract expected tools from test step
+        expected_tool_names = []
+        for tool_exp in step.expected_tools:
+            expected_tool_names.append(tool_exp.tool)
+        
+        # Configure Claude with authorization and memory bank
+        options = ClaudeCodeOptions(
+            mcp_servers={
+                "socratic-shell": {
+                    "command": "uv",
+                    "args": ["run", "python", "-m", "socratic_shell"],
+                    "env": {"SOCRATIC_SHELL_LOG": "/tmp/socratic-debug.log"}
+                },
+                "dialectic-auth": {
+                    "command": "uv", 
+                    "args": ["run", "python", auth_server_path, "--expected-tools"] + expected_tool_names
+                }
+            },
+            permission_prompt_tool_name="mcp__dialectic-auth__authorize",
+            allowed_tools=expected_tool_names + ["mcp__dialectic-auth__authorize"],
+            cwd=os.getcwd()
+        )
+        
         print(f"🤖 Assistant: ", end="", flush=True)
-        async for message in query(prompt=step.user_message):
+        async for message in query(prompt=step.user_message, options=options):
             if isinstance(message, AssistantMessage):
                 for block in message.content:
                     if isinstance(block, TextBlock):

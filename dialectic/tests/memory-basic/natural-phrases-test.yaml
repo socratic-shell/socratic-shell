@@ -1,0 +1,12 @@
+name: "Memory Field Design Recall"
+description: "Test memory retrieval when user asks about past design decisions"
+
+conversation:
+  - user: "Hi Claude, can you check your memory bank and tell me what we decided about the situation field? I remember we had a discussion about whether to use structured tags or something else."
+    expected_response:
+      should_contain: ["natural phrases", "situation", "structured"]
+    expected_tools:
+      - tool: "mcp__socratic-shell__read_in"
+        parameters:
+          query:
+            should_contain: ["situation field"]

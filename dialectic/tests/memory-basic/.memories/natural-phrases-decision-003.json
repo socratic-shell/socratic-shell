@@ -1,0 +1,6 @@
+{
+  "id": "natural-phrases-decision-003",
+  "content": "Chose natural phrases over structured tags for situation descriptions. Niko worried about exact matching, but we realized keyword search with stemming handles variations well. 'feeling overwhelmed' is more intuitive than 'state:overwhelmed' and matches how people actually describe situations.",
+  "situation": ["discussing data formats", "usability vs structure tradeoff", "decision making with Niko", "favoring simplicity"],
+  "created_at": "2024-07-05T11:20:00Z"
+}

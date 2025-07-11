@@ -8,6 +8,7 @@ dependencies = [
     "claude-code-sdk>=0.0.14",
     "pyyaml>=6.0",
     "typing_extensions>=4.5.0",
+    "mcp",
 ]
 
 [tool.ruff]

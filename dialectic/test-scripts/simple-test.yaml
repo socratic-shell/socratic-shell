@@ -1,8 +1,0 @@
-name: "Simple Test"
-description: "Basic test to verify tool categorization works"
-
-conversation:
-  - user: "Hello Claude"
-    expected_response:
-      should_contain: ["Hello"]
-    expected_tools: []
