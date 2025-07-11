@@ -42,16 +42,31 @@ stemmer = PorterStemmer()
 
 server = Server("socratic-shell")
 
+# Global configuration
+MEMORIES_DIR_OVERRIDE = None
 
-def find_all_memories_dirs():
-    """Walk up from CWD to collect all .memories directories."""
+
+def find_all_memories_dirs(override_dir=None):
+    """Walk up from CWD to collect all .memories directories.
+    
+    Args:
+        override_dir: Optional directory to search from instead of CWD
+    """
     memories_dirs = []
-    current = Path.cwd()
+    current = Path(override_dir) if override_dir else Path.cwd()
+    if debug_logger:
+        debug_logger.info(f"Starting search from: {current}")
     while current != current.parent:
         memories_dir = current / ".memories"
+        if debug_logger:
+            debug_logger.info(f"Checking for .memories at: {memories_dir}")
         if memories_dir.exists() and memories_dir.is_dir():
+            if debug_logger:
+                debug_logger.info(f"Found .memories directory: {memories_dir}")
             memories_dirs.append(memories_dir)
         current = current.parent
+    if debug_logger:
+        debug_logger.info(f"Total .memories directories found: {len(memories_dirs)}")
     return memories_dirs
 
 
@@ -74,7 +89,7 @@ def load_memories(memories_dir):
 def load_all_memories():
     """Load memories from all .memories directories."""
     all_memories = []
-    for memories_dir in find_all_memories_dirs():
+    for memories_dir in find_all_memories_dirs(MEMORIES_DIR_OVERRIDE):
         logger.info(f"Loading memories from {memories_dir}")
         all_memories.extend(load_memories(memories_dir))
     return all_memories
@@ -282,6 +297,20 @@ async def handle_call_tool(
 
 async def main():
     """Main entry point for the server."""
+    import argparse
+    
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(description="Memory Bank MCP Server")
+    parser.add_argument("--memories-dir", help="Override directory to search for .memories directories")
+    args = parser.parse_args()
+    
+    # Set global override if provided
+    global MEMORIES_DIR_OVERRIDE
+    if args.memories_dir:
+        MEMORIES_DIR_OVERRIDE = args.memories_dir
+        if debug_logger:
+            debug_logger.info(f"Using memories directory override: {MEMORIES_DIR_OVERRIDE}")
+    
     # Import here to avoid issues with event loop
     from mcp.server.stdio import stdio_server
 
