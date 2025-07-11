@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "socratic-shell"
+name = "memory-bank"
 version = "0.1.0"
 description = "MCP server for intelligent memory consolidation and retrieval"
 authors = [
@@ -17,7 +17,7 @@ dependencies = [
 requires-python = ">=3.11"
 
 [project.scripts]
-socratic-shell = "socratic_shell.__main__:main_sync"
+memory-bank = "memory_bank.__main__:main_sync"
 
 [tool.uv]
 dev-dependencies = [

@@ -42,7 +42,7 @@
 {
   "content": "Rich natural language memory with full context",
   "subject": ["explicit", "searchable", "topics"],
-  "project": "socratic-shell" | "global", 
+  "project": "memory-bank" | "global", 
   "mood": "curious" | "precise" | "understanding-check",
   "content_type": "insight" | "pattern" | "decision" | "ongoing_task"
 }
