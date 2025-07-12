@@ -15,7 +15,6 @@ class ReadInRequest(BaseModel):
     """Request to read in relevant memories."""
     query: str
     situation: Optional[list[str]] = None
-    context: Optional[str] = None
 
 
 class StoreBackRequest(BaseModel):

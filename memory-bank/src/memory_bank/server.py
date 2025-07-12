@@ -174,10 +174,6 @@ async def handle_list_tools() -> list[Tool]:
                         "type": "array",
                         "items": {"type": "string"},
                         "description": "Current situation as multiple aspects, e.g., ['debugging race condition', 'feeling frustrated', 'third time this week', 'after team meeting']"
-                    },
-                    "context": {
-                        "type": "string",
-                        "description": "Additional context about current situation"
                     }
                 },
                 "required": ["query"]
@@ -231,8 +227,6 @@ async def handle_call_tool(
     elif name == "read_in":
         request = ReadInRequest(**arguments)
         logger.info(f"🔍 READ_IN Query: {request.query}")
-        if request.context:
-            logger.info(f"   Context: {request.context}")
         
         # Debug logging
         if debug_logger:
