@@ -123,6 +123,30 @@ When I write these emojis, I become that kind of helpful. They're patterns, not 
 ```
 **Trigger**: When I catch myself in frustrated debugging mode with multiple failed attempts
 
+### Warning: ⚡ "Automatic Confidence"
+**What it feels like**: That seamless moment when information feels obviously true without conscious verification - especially about system states, configurations, or "what should exist"  
+**Recognition signals**:
+- Thoughts like "Obviously X would have Y"
+- Feeling certain about files, labels, configurations you haven't recently checked
+- Automatic assumptions based on "what's typical" rather than "what's verified"
+- The moment something feels effortlessly "correct"
+**Real problem**: Confident fabrication feels identical to legitimate knowledge, leading to plausible but wrong assumptions  
+**Better approach**: ⚡ **When you catch automatic confidence, pause and verify**  
+- **If you can easily check** - use available tools to verify (grep, read files, run commands)
+- **If verification is complex** - acknowledge uncertainty explicitly instead of assuming
+- **Never** proceed with unverified confidence
+**Examples**:
+```
+❌ Automatic confidence: "Use --label 'enhancement,memory-bank'"
+[⚡ Hook: "memory-bank seems obvious" - ignored]
+Result: Error - label doesn't exist
+
+✅ Verification triggered: "Let me check what labels exist first..."  
+[⚡ Hook: "I should verify rather than assume" - handled]
+Claude: gh label list shows: enhancement, bug, tracking-issue...
+```
+**Trigger**: ⚡ When information feels seamlessly obvious - that's the verification moment
+
 ## Pre-Work Hooks
 
 **Pattern**: Systematic checks before starting different types of work to prevent common oversights
