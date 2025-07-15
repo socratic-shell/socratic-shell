@@ -3,8 +3,10 @@
 import json
 import logging
 import os
+import uuid
+from datetime import datetime
 from pathlib import Path
-from typing import Any, Sequence
+from typing import Any, Sequence, Dict
 from mcp.server.models import InitializationOptions
 from mcp.types import ServerCapabilities
 from mcp.server import NotificationOptions, Server
@@ -19,7 +21,7 @@ from mcp.types import (
 import nltk
 from nltk.stem import PorterStemmer
 
-from .models import ConsolidateRequest, ReadInRequest, StoreBackRequest, Memory
+from .models import WriteMemoryRequest, ReadInRequest, Memory
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -43,8 +45,22 @@ stemmer = PorterStemmer()
 
 server = Server("socratic-shell")
 
-# Global configuration
+# Global configuration - set during server startup via command line arguments
+# MEMORIES_DIR_OVERRIDE: When set via --memories-dir, overrides the directory search
+# for .memories folders. Normally searches from CWD upward to root.
 MEMORIES_DIR_OVERRIDE = None
+
+# SIMULATED_MODE: When set via --simulated flag, prevents actual file writes.
+# All write operations go to in-memory store instead of disk.
+SIMULATED_MODE = False
+
+# 💡: Memory cache for session persistence - tracks memories that have been
+# read or written during this session. Used for:
+# 1. Optimistic concurrency control (must read before update)
+# 2. Simulated mode storage (writes go here instead of disk)
+# 3. Making simulated writes visible to subsequent read_in calls
+# Maps memory ID -> memory data dict (same format as JSON files)
+read_cache: Dict[str, Dict[str, Any]] = {}
 
 
 def find_all_memories_dirs(override_dir=None):
@@ -93,7 +109,125 @@ def load_all_memories():
     for memories_dir in find_all_memories_dirs(MEMORIES_DIR_OVERRIDE):
         logger.info(f"Loading memories from {memories_dir}")
         all_memories.extend(load_memories(memories_dir))
+    
+    # 💡: Include cached memories in search results (includes simulated writes)
+    all_memories.extend(read_cache.values())
+    
     return all_memories
+
+
+def get_memory_write_dir():
+    """Get the .memories directory in current working directory for new memories.
+    
+    Always writes new memories to CWD/.memories, creating it if needed.
+    """
+    current_dir = Path(MEMORIES_DIR_OVERRIDE) if MEMORIES_DIR_OVERRIDE else Path.cwd()
+    memories_dir = current_dir / ".memories"
+    memories_dir.mkdir(exist_ok=True)
+    return memories_dir
+
+
+def write_memory(content, situation=None, memory_id=None):
+    """Write memory to storage with optimistic concurrency control.
+    
+    Args:
+        content: Memory content to store
+        situation: Optional context phrases for retrieval
+        memory_id: Optional memory ID for updates (requires prior read)
+        
+    Returns:
+        Memory ID of written memory
+        
+    Raises:
+        ValueError: If memory_id provided but not in read cache or content changed
+    """
+    global read_cache
+    
+    if memory_id:
+        # 💡: Update existing memory - check optimistic concurrency control
+        # Check if memory was read during this session (applies to both modes)
+        if memory_id not in read_cache:
+            raise ValueError(f"Memory {memory_id} must be read before updating")
+        
+        if SIMULATED_MODE:
+            # In simulated mode, update the cache directly (no file operations)
+            cached_memory = read_cache[memory_id]
+            memory_data = {
+                "id": memory_id,
+                "content": content,
+                "situation": situation or cached_memory.get('situation', []),
+                "created_at": cached_memory.get('created_at', datetime.now().isoformat())
+            }
+            read_cache[memory_id] = memory_data
+            return memory_id
+        
+        # Find the memory file
+        memory_file = None
+        for memories_dir in find_all_memories_dirs(MEMORIES_DIR_OVERRIDE):
+            potential_file = memories_dir / f"{memory_id}.json"
+            if potential_file.exists():
+                memory_file = potential_file
+                break
+        
+        if not memory_file:
+            raise ValueError(f"Memory {memory_id} does not exist")
+        
+        # Check if file content matches our cached version
+        try:
+            with open(memory_file) as f:
+                current_content = json.load(f)
+            
+            cached_content = read_cache[memory_id]
+            if current_content.get('content') != cached_content.get('content'):
+                # 💡: Concurrent modification detected - update cache and return new content
+                read_cache[memory_id] = current_content.copy()
+                raise ValueError(f"Memory {memory_id} has been modified: {current_content['content']}")
+        except (json.JSONDecodeError, OSError) as e:
+            raise ValueError(f"Error reading memory {memory_id}: {e}")
+        
+        # Update the memory
+        updated_memory = {
+            "id": memory_id,
+            "content": content,
+            "situation": situation or current_content.get('situation', []),
+            "created_at": current_content.get('created_at', datetime.now().isoformat())
+        }
+        
+        with open(memory_file, 'w') as f:
+            json.dump(updated_memory, f, indent=2)
+        
+        # Update read cache
+        read_cache[memory_id] = updated_memory.copy()
+        
+        return memory_id
+    
+    else:
+        # 💡: Create new memory with generated UUID
+        new_id = str(uuid.uuid4())
+        
+        memory_data = {
+            "id": new_id,
+            "content": content,
+            "situation": situation or [],
+            "created_at": datetime.now().isoformat()
+        }
+        
+        if SIMULATED_MODE:
+            # In simulated mode, just add to cache
+            read_cache[new_id] = memory_data
+            return new_id
+        
+        # Write new memories to current directory
+        memories_dir = get_memory_write_dir()
+        memory_file = memories_dir / f"{new_id}.json"
+        
+        with open(memory_file, 'w') as f:
+            json.dump(memory_data, f, indent=2)
+        
+        # Add to read cache for potential future updates
+        read_cache[new_id] = memory_data.copy()
+        
+        return new_id
 
 
 def search_memories(query, situation_list, memories):
@@ -136,25 +270,23 @@ async def handle_list_tools() -> list[Tool]:
     """List available tools."""
     return [
         Tool(
-            name="consolidate",
-            description="Store important insights, collaboration patterns, or knowledge for future retrieval",
+            name="write-memory",
+            description="Store or update memory content. For new memories, omit the id parameter. For updates, provide the id of a memory that has been previously read via read_in.",
             inputSchema={
                 "type": "object",
                 "properties": {
                     "content": {
                         "type": "string",
-                        "description": "The information to consolidate into memory"
+                        "description": "The memory content to store"
                     },
                     "situation": {
                         "type": "array",
                         "items": {"type": "string"},
-                        "description": "Multiple situation aspects as separate phrases, e.g., ['debugging payment system', 'feeling frustrated', 'third concurrency issue this week', 'after team meeting']"
+                        "description": "Context phrases for better retrieval, e.g., ['debugging payment system', 'feeling frustrated', 'third concurrency issue this week']"
                     },
-                    "importance": {
+                    "id": {
                         "type": "string",
-                        "description": "Importance level: low, medium, high",
-                        "enum": ["low", "medium", "high"],
-                        "default": "medium"
+                        "description": "Memory ID for updates (omit for new memories)"
                     }
                 },
                 "required": ["content"]
@@ -179,28 +311,6 @@ async def handle_list_tools() -> list[Tool]:
                 "required": ["query"]
             }
         ),
-        Tool(
-            name="store_back",
-            description="Update existing memory with new insights or refinements",
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "memory_id": {
-                        "type": "string",
-                        "description": "ID of the memory to update"
-                    },
-                    "updated_content": {
-                        "type": "string",
-                        "description": "Updated or refined content"
-                    },
-                    "reason": {
-                        "type": "string",
-                        "description": "Reason for the update"
-                    }
-                },
-                "required": ["memory_id", "updated_content"]
-            }
-        )
     ]
 
 
@@ -212,19 +322,7 @@ async def handle_call_tool(
     if arguments is None:
         arguments = {}
 
-    if name == "consolidate":
-        request = ConsolidateRequest(**arguments)
-        logger.info(f"🧠 CONSOLIDATE (importance: {request.importance})")
-        logger.info(f"   Content: {request.content}")
-        
-        return [
-            TextContent(
-                type="text",
-                text=f"✅ Consolidated memory with importance '{request.importance}'"
-            )
-        ]
-
-    elif name == "read_in":
+    if name == "read_in":
         request = ReadInRequest(**arguments)
         logger.info(f"🔍 READ_IN Query: {request.query}")
         
@@ -239,8 +337,14 @@ async def handle_call_tool(
             
         matching_memories = search_memories(request.query, request.situation, all_memories)
         
+        # 💡: Populate read cache with returned memories to enable write-memory updates
+        for memory in matching_memories:
+            if 'id' in memory:
+                read_cache[memory['id']] = memory.copy()
+        
         if debug_logger:
             debug_logger.info(f"Found {len(matching_memories)} matching memories")
+            debug_logger.info(f"Updated read cache with {len(matching_memories)} memories")
             for i, mem in enumerate(matching_memories):
                 debug_logger.info(f"  Memory {i+1}: {mem.get('id', 'no-id')} - {mem['content'][:100]}...")
         
@@ -272,19 +376,33 @@ async def handle_call_tool(
             )
         ]
 
-    elif name == "store_back":
-        request = StoreBackRequest(**arguments)
-        logger.info(f"📝 STORE_BACK Memory ID: {request.memory_id}")
-        logger.info(f"   Updated content: {request.updated_content}")
-        if request.reason:
-            logger.info(f"   Reason: {request.reason}")
+    elif name == "write-memory":
+        request = WriteMemoryRequest(**arguments)
+        logger.info(f"💾 WRITE-MEMORY")
+        logger.info(f"   Content: {request.content[:100]}{'...' if len(request.content) > 100 else ''}")
+        if request.id:
+            logger.info(f"   Memory ID: {request.id}")
         
-        return [
-            TextContent(
-                type="text",
-                text=f"✅ Updated memory {request.memory_id}"
+        try:
+            memory_id = write_memory(
+                content=request.content,
+                situation=request.situation,
+                memory_id=request.id
             )
-        ]
+            
+            return [
+                TextContent(
+                    type="text",
+                    text=f"✅ Memory stored with ID: {memory_id}"
+                )
+            ]
+        except ValueError as e:
+            return [
+                TextContent(
+                    type="text", 
+                    text=f"❌ Error: {str(e)}"
+                )
+            ]
 
     else:
         raise ValueError(f"Unknown tool: {name}")
@@ -297,14 +415,21 @@ async def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description="Memory Bank MCP Server")
     parser.add_argument("--memories-dir", help="Override directory to search for .memories directories")
+    parser.add_argument("--simulated", action="store_true", help="Run in simulated mode (no file writes)")
     args = parser.parse_args()
     
-    # Set global override if provided
-    global MEMORIES_DIR_OVERRIDE
+    # Set global configuration
+    global MEMORIES_DIR_OVERRIDE, SIMULATED_MODE
     if args.memories_dir:
         MEMORIES_DIR_OVERRIDE = args.memories_dir
         if debug_logger:
             debug_logger.info(f"Using memories directory override: {MEMORIES_DIR_OVERRIDE}")
+    
+    if args.simulated:
+        SIMULATED_MODE = True
+        logger.info("🧪 SIMULATED MODE: Memory operations will not write to disk")
+        if debug_logger:
+            debug_logger.info("Running in simulated mode - no file system changes")
     
     # Import here to avoid issues with event loop
     from mcp.server.stdio import stdio_server
