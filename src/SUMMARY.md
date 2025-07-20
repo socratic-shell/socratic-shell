@@ -6,6 +6,7 @@
 
 - [Collaborative prompting](./collaborative-prompting.md)
 - [User prompt](./prompts/user/README.md)
+    - [main.md -- the main prompt](./prompts/user/main.md)
 - [Per-project prompts](./prompts/project/README.md)
     - [AI Insight comments](./prompts/project/ai-insights.md)
     - [Github tracking issues](./prompts/project/github-tracking-issues.md)
