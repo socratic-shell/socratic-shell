@@ -1,0 +1,23 @@
+name: "Memory Persistence Test"
+description: "Test that memories persist between conversation steps"
+
+conversation:
+  # First, create a memory
+  - user: "Store this memory: 'Testing memory persistence across steps'"
+    expected_response:
+      should_contain: ["stored"]
+    expected_tools:
+      - tool: "mcp__memory-bank__write-memory"
+        parameters:
+          content:
+            should_contain: ["persistence"]
+
+  # Then verify it persists in the next step
+  - user: "Search for memories about persistence"
+    expected_response:
+      should_contain: ["Testing memory persistence"]
+    expected_tools:
+      - tool: "mcp__memory-bank__read_in"
+        parameters:
+          query:
+            should_contain: ["persistence"]

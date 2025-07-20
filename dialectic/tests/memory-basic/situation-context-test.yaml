@@ -1,0 +1,12 @@
+name: "Situation Context Memory"
+description: "Test creating memory with situation context for better retrieval"
+
+conversation:
+  - user: "Store this memory: 'Use structured logging when debugging distributed systems' with situation context: debugging, distributed-systems, frustrated"
+    expected_response:
+      should_contain: ["stored"]
+    expected_tools:
+      - tool: "mcp__memory-bank__write-memory"
+        parameters:
+          content:
+            should_contain: ["structured logging", "distributed systems"]

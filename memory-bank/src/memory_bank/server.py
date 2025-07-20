@@ -50,27 +50,42 @@ server = Server("socratic-shell")
 # for .memories folders. Normally searches from CWD upward to root.
 MEMORIES_DIR_OVERRIDE = None
 
-# SIMULATED_MODE: When set via --simulated flag, prevents actual file writes.
-# All write operations go to in-memory store instead of disk.
-SIMULATED_MODE = False
+# 💡: Removed simulated mode - all operations now use real file persistence.
+# For testing, dialectic creates temporary directories with test fixtures.
 
 # 💡: Memory cache for session persistence - tracks memories that have been
 # read or written during this session. Used for:
 # 1. Optimistic concurrency control (must read before update)
-# 2. Simulated mode storage (writes go here instead of disk)
-# 3. Making simulated writes visible to subsequent read_in calls
+# 2. Ensuring consistency within a session
 # Maps memory ID -> memory data dict (same format as JSON files)
 read_cache: Dict[str, Dict[str, Any]] = {}
 
 
 def find_all_memories_dirs(override_dir=None):
-    """Walk up from CWD to collect all .memories directories.
+    """Find .memories directories based on configuration.
     
     Args:
-        override_dir: Optional directory to search from instead of CWD
+        override_dir: When provided, ONLY use this specific directory.
+                     Otherwise, walk up from CWD to collect all .memories directories.
+    
+    💡: When override_dir is set (e.g., for testing), we don't walk up the tree.
+    This allows dialectic tests to run in isolated environments.
     """
+    if override_dir:
+        # Use only the specific override directory
+        memories_dir = Path(override_dir) / ".memories"
+        if debug_logger:
+            debug_logger.info(f"Using override directory only: {memories_dir}")
+        if memories_dir.exists() and memories_dir.is_dir():
+            return [memories_dir]
+        else:
+            if debug_logger:
+                debug_logger.info(f"Override directory does not exist: {memories_dir}")
+            return []
+    
+    # Normal mode: walk up from CWD
     memories_dirs = []
-    current = Path(override_dir) if override_dir else Path.cwd()
+    current = Path.cwd()
     if debug_logger:
         debug_logger.info(f"Starting search from: {current}")
     while current != current.parent:
@@ -110,7 +125,7 @@ def load_all_memories():
         logger.info(f"Loading memories from {memories_dir}")
         all_memories.extend(load_memories(memories_dir))
     
-    # 💡: Include cached memories in search results (includes simulated writes)
+    # 💡: Include cached memories in search results for session consistency
     all_memories.extend(read_cache.values())
     
     return all_memories
@@ -148,18 +163,6 @@ def write_memory(content, situation=None, memory_id=None):
         # Check if memory was read during this session (applies to both modes)
         if memory_id not in read_cache:
             raise ValueError(f"Memory {memory_id} must be read before updating")
-        
-        if SIMULATED_MODE:
-            # In simulated mode, update the cache directly (no file operations)
-            cached_memory = read_cache[memory_id]
-            memory_data = {
-                "id": memory_id,
-                "content": content,
-                "situation": situation or cached_memory.get('situation', []),
-                "created_at": cached_memory.get('created_at', datetime.now().isoformat())
-            }
-            read_cache[memory_id] = memory_data
-            return memory_id
         
         # Find the memory file
         memory_file = None
@@ -211,11 +214,6 @@ def write_memory(content, situation=None, memory_id=None):
             "situation": situation or [],
             "created_at": datetime.now().isoformat()
         }
-        
-        if SIMULATED_MODE:
-            # In simulated mode, just add to cache
-            read_cache[new_id] = memory_data
-            return new_id
         
         # Write new memories to current directory
         memories_dir = get_memory_write_dir()
@@ -383,12 +381,19 @@ async def handle_call_tool(
         if request.id:
             logger.info(f"   Memory ID: {request.id}")
         
+        # Debug logging
+        if debug_logger:
+            debug_logger.info(f"WRITE-MEMORY called with content='{request.content}', situation={request.situation}, id={request.id}")
+        
         try:
             memory_id = write_memory(
                 content=request.content,
                 situation=request.situation,
                 memory_id=request.id
             )
+            
+            if debug_logger:
+                debug_logger.info(f"WRITE-MEMORY succeeded with memory_id={memory_id}")
             
             return [
                 TextContent(
@@ -397,6 +402,8 @@ async def handle_call_tool(
                 )
             ]
         except ValueError as e:
+            if debug_logger:
+                debug_logger.info(f"WRITE-MEMORY failed with error: {str(e)}")
             return [
                 TextContent(
                     type="text", 
@@ -415,21 +422,15 @@ async def main():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description="Memory Bank MCP Server")
     parser.add_argument("--memories-dir", help="Override directory to search for .memories directories")
-    parser.add_argument("--simulated", action="store_true", help="Run in simulated mode (no file writes)")
     args = parser.parse_args()
     
     # Set global configuration
-    global MEMORIES_DIR_OVERRIDE, SIMULATED_MODE
+    global MEMORIES_DIR_OVERRIDE
     if args.memories_dir:
         MEMORIES_DIR_OVERRIDE = args.memories_dir
         if debug_logger:
             debug_logger.info(f"Using memories directory override: {MEMORIES_DIR_OVERRIDE}")
     
-    if args.simulated:
-        SIMULATED_MODE = True
-        logger.info("🧪 SIMULATED MODE: Memory operations will not write to disk")
-        if debug_logger:
-            debug_logger.info("Running in simulated mode - no file system changes")
     
     # Import here to avoid issues with event loop
     from mcp.server.stdio import stdio_server

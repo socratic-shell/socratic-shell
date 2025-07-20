@@ -11,6 +11,8 @@ import argparse
 import glob
 import yaml
 import os
+import tempfile
+import shutil
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 from pathlib import Path
@@ -124,6 +126,36 @@ class DialecticRunner:
     def __init__(self):
         """Initialize the test runner."""
         self.results = []
+        self.temp_dir = None
+    
+    def setup_temp_memories_dir(self, test_name: str) -> Path:
+        """Create a temporary directory for memory bank testing.
+        
+        💡: Each test gets its own isolated .memories directory to ensure
+        no interference between tests and real file persistence.
+        """
+        if self.temp_dir:
+            self.cleanup_temp_dir()
+        
+        # Create temporary directory for this test
+        self.temp_dir = tempfile.mkdtemp(prefix=f"dialectic-{test_name}-")
+        temp_path = Path(self.temp_dir)
+        
+        # Create .memories subdirectory
+        memories_dir = temp_path / ".memories"
+        memories_dir.mkdir()
+        
+        print(f"📁 Created test directory: {temp_path}")
+        print(f"📁 Created memories directory: {memories_dir}")
+        
+        return temp_path
+    
+    def cleanup_temp_dir(self):
+        """Clean up temporary directory."""
+        if self.temp_dir and os.path.exists(self.temp_dir):
+            shutil.rmtree(self.temp_dir)
+            print(f"🧹 Cleaned up temp directory: {self.temp_dir}")
+            self.temp_dir = None
     
     def load_test_case(self, yaml_path: Path) -> TestCase:
         """Load a test case from a YAML file."""
@@ -220,12 +252,16 @@ class DialecticRunner:
         for tool_exp in step.expected_tools:
             expected_tool_names.append(tool_exp.tool)
         
+        # Use temporary directory for memory bank testing
+        if not self.temp_dir:
+            raise RuntimeError("Temporary directory not set up. Call setup_temp_memories_dir first.")
+        
         # Configure Claude with authorization and memory bank
         options = ClaudeCodeOptions(
             mcp_servers={
                 "memory-bank": {
                     "command": "uv",
-                    "args": ["--directory", "/home/nikomatsakis/dev/socratic-shell/memory-bank", "run", "python", "-m", "memory_bank", "--memories-dir", "/home/nikomatsakis/dev/socratic-shell/dialectic/tests/memory-basic", "--simulated"],
+                    "args": ["--directory", "/home/nikomatsakis/dev/socratic-shell/memory-bank", "run", "python", "-m", "memory_bank", "--memories-dir", self.temp_dir],
                     "env": {"SOCRATIC_SHELL_LOG": "/tmp/socratic-debug.log"}
                 },
                 "dialectic-auth": {
@@ -343,25 +379,32 @@ class DialecticRunner:
             print(f"🏷️  Tags: {', '.join(test_case.tags)}")
         print(f"{'='*60}")
         
+        # Set up temporary directory for this test
+        self.setup_temp_memories_dir(test_case.name)
+        
         all_steps_passed = True
         
-        for i, step in enumerate(test_case.conversation, 1):
-            print(f"\n--- Step {i}/{len(test_case.conversation)} ---")
-            
-            result = await self.run_conversation_step(step)
-            self.results.append(result)
-            
-            if result.success:
-                print(f"✅ Step {i} PASSED")
-            else:
-                print(f"❌ Step {i} FAILED")
-                all_steps_passed = False
+        try:
+            for i, step in enumerate(test_case.conversation, 1):
+                print(f"\n--- Step {i}/{len(test_case.conversation)} ---")
                 
-                # Stop executing remaining steps - conversation state is now wrong
-                remaining_steps = len(test_case.conversation) - i
-                if remaining_steps > 0:
-                    print(f"⏭️  Skipping {remaining_steps} remaining step(s) due to failure")
-                break
+                result = await self.run_conversation_step(step)
+                self.results.append(result)
+                
+                if result.success:
+                    print(f"✅ Step {i} PASSED")
+                else:
+                    print(f"❌ Step {i} FAILED")
+                    all_steps_passed = False
+                    
+                    # Stop executing remaining steps - conversation state is now wrong
+                    remaining_steps = len(test_case.conversation) - i
+                    if remaining_steps > 0:
+                        print(f"⏭️  Skipping {remaining_steps} remaining step(s) due to failure")
+                    break
+        finally:
+            # Clean up temporary directory
+            self.cleanup_temp_dir()
         
         print(f"\n🎯 Test Case Result: {'PASSED' if all_steps_passed else 'FAILED'}")
         return all_steps_passed
