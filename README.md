@@ -44,6 +44,45 @@ If you're working with Claude and interested in this approach:
 
 The specific patterns in CLAUDE.md are tailored to Niko's working style, but the meta-approach of deliberate collaboration design could be adapted to other partnerships.
 
+## Memory Experimentation
+
+A key dimension of deliberate collaboration is persistent memory - the ability to build understanding over time rather than starting fresh with each conversation. This repository includes experiments with different approaches to AI memory that align with mindful collaboration patterns.
+
+### The Goal
+
+Traditional AI memory systems often feel mechanical - storing and retrieving information without regard for the quality of attention or natural rhythms of understanding. These experiments explore memory that:
+
+- **Emerges organically** from consolidation moments and insights
+- **Supports the hermeneutic circle** - holding both parts and whole as understanding deepens
+- **Aligns with presence** - updating when awareness shifts rather than on rigid schedules
+- **Serves collaboration** - capturing what emerges between minds rather than just facts about individuals
+
+### Current Experiments
+
+#### 1. Official Anthropic Memory Server
+Testing the standard MCP memory server to see if it can support mindful collaboration patterns.
+
+**Location**: `memory-experiments/anthropic-memory/`  
+**Status**: Active experiment  
+**Source**: https://github.com/modelcontextprotocol/servers/tree/main/src/memory
+
+#### 2. Custom Memory Bank
+A purpose-built memory server designed specifically for presence-based collaboration.
+
+**Location**: `memory-experiments/memory-bank/` (links to `/memory-bank/`)  
+**Status**: Experimental alternative  
+**Implementation**: Custom Python MCP server
+
+### Memory as Practice
+
+Memory in these experiments is not a database to be filled but a living dimension of relationship. Updates happen naturally during:
+- Consolidation moments ("Make it so")
+- Insight recognition and pattern emergence  
+- Checkpointing work and updating tracking issues
+- Meta moments when collaboration patterns shift
+
+Each experiment explores how memory can serve the deeper practice of collaborative understanding rather than just information storage.
+
 ---
 
 ## Hat Tip

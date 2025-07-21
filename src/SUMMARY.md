@@ -13,12 +13,15 @@
     - [Github tracking issues](./prompts/project/github-tracking-issues.md)
     - [.ongoing files](./prompts/project/ongoing-work-tracking.md)
 
-# Memory bank
+# Memory: Retaining context
 
-- [Vision and goals](./memory-bank/README.md)
-- [Design Foundation](./memory-bank/design-foundation.md)
-- [Current State](./memory-bank/current-state.md)
-- [Frequently asked questions](./memory-bank/faq.md)
+- [Retaining context](./retaining-context.md)
+- [Official Memory Server](./official-memory-server/README.md)
+- [Custom Memory Bank](./memory-bank/README.md)
+    - [Design Foundation](./memory-bank/design-foundation.md)
+    - [Current State](./memory-bank/current-state.md)
+    - [Frequently asked questions](./memory-bank/faq.md)
+- [AI Insights Comments](./prompts/project/ai-insights.md)
 
 # Dialectic
 
