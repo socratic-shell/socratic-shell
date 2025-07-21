@@ -1,5 +1,18 @@
 # Current State
 
+## Recent Progress
+
+### Documentation Restructuring (July 2025)
+- **Memory approaches organization**: Restructured documentation to organize memory approaches with consistent structure (main README + associated prompts)
+- **Retaining context improvements**: Enhanced introduction with collaborative partnership framing, added "Different audiences" section highlighting individual vs. shared knowledge needs
+- **Navigation cleanup**: Removed redundant "Per-project prompts" section, updated all cross-references to new structure
+- **Voice alignment**: Applied "Niko voice" principles throughout - practical over theoretical, direct about challenges, experience-driven
+
+### Key Insights Captured
+- **Different audiences need**: Recognition that memory systems must serve both individual collaboration history and shared project knowledge
+- **Productive desynchronization**: Individual memory can drift from project memory (e.g., out-of-date rustc knowledge) while still being useful
+- **Organizational systems**: Claude won't remember everything, so we need systems to pull context in on demand without overwhelming
+
 ## Open Questions
 
 ### Technical Implementation

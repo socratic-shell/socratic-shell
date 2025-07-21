@@ -13,6 +13,11 @@ External knowledge graph memory using the official MCP memory server from the Mo
 - **Language**: TypeScript/Node.js
 - **Status**: Active experiment
 
+## Custom Prompt Integration
+Rather than using the memory server mechanically, we've fashioned a [custom prompt](../prompts/project/official-memory-server.md) that guides Claude to use it as an extension of presence-based collaboration. The prompt frames memory as "a living dimension of our relationship" that emerges naturally from consolidation moments, insight recognition, and checkpointing work.
+
+This approach treats the external knowledge graph not as a database to fill but as a way to preserve the collaborative understanding that develops between human and AI over time.
+
 ## Integration Notes
 Testing how external knowledge graphs support:
 - Organic memory updates during consolidation moments

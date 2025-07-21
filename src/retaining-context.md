@@ -1,32 +1,44 @@
 # Retaining Context
 
-Collaborative prompting works great until the context starts to run out or you end your session. Then you have to start all over again. I haven't found things like Claude Code's `/compact` command to be very effective, so I've been exploring alternatives.
+With collaborative prompting, you can build up good rapport with Claude - shared understanding, working patterns, and preferences for how to approach problems. But when you quit and return later, Claude has forgotten the specifics of what you were doing and details of what you like and don't like.
 
-## The Challenge: Multiple Types of Context
+## The Goal: Collaborative Partnership, Not Rigid Structure
 
-There are many different kinds of context to retain:
-- **Interaction preferences** - How you like to work with AI
-- **Project information** - Current state, goals, architecture decisions  
+The aim isn't to create a complex memory system that forces AI into rigid patterns. Instead, we want to preserve the collaborative relationship while leveraging AI's natural strengths - the ability to collect, digest, and synthesize information organically. 
+
+Rather than cognitive overhead from complex structures, we want memory that supports the natural flow of collaborative work: consolidation moments, insight recognition, and the gradual deepening of shared understanding.
+
+## Different Types of Context Need Different Approaches
+
+Context retention isn't one problem but several:
+- **Interaction preferences** - How you like to work with AI. Sometimes a pattern is so broad that we extend the user prompt, but memory systems can be helpful for finer-grained details.
+- **Project information** - Current state, goals, architecture decisions.
 - **Shared code knowledge** - How things work that should benefit everyone
 - **Personal insights** - Your individual journey and understanding
 
+## Different audiences
+
+One of my key goals is to figure out how to fit Claude into existing project workflows, particularly open source workflows. I want to be able to retain *both* individual memory that is tailored to what *you* have done and to separate out general knowledge that can be useful to everyone. I believe that, just like humans, Claude won't be able to remember everything all of the time, so we need organizational systems that let us pull things in on demand and avoid overwhelming Claude (or the human!). 
+
+It's also useful sometimes for the memory of an individual to drift from the memory of the project -- for example, much of my memory about rustc is out-of-date when it comes to the particular project structure, but it'd still be useful for Claude to remember what we last saw and be updated with the latest version. Then it can advise me that something has changed since I last looked at it.
+
 ## Current Approaches
 
-### Explicit Context Management
-Claude and I maintain our context explicitly, either in [files for each ongoing task](./prompts/project/ongoing-work-tracking.md) or, more recently, through [AI-managed tracking issues on GitHub](./prompts/project/github-tracking-issues.md). When we come up with good new ideas or finish some phase of the work, I ask Claude to checkpoint our progress and they create commits and summarize our progress. Then we can always reload and figure out where we were.
+### [Explicit Context Management](./tracking-task-status/README.md)
+To track the state of tasks, explicit context management seems to work pretty well. Claude and I maintain our context explicitly, either through [AI-managed tracking issues on GitHub](./tracking-task-status/README.md) or the older approach of [files for each ongoing task](./tracking-task-status/README.md). When we come up with good new ideas or finish some phase of the work, I ask Claude to checkpoint our progress and they create commits and summarize our progress. Then we can always reload and figure out where we were.
 
-### Interaction Pattern Memory
-Tracking issues work pretty well for *tasks* but don't really capture changes to the *way* we interact. Right now, I've found that my [user prompt](./prompts/user/README.md) is a great start, though it helps to begin each fresh Claude session with "Hi again, Claude!", which triggers Claude to review the patterns with me. That creates a more spacious mood from the outset - not loading information, but setting the quality of attention we bring to the work.
-
-### Quote-Based Systems
-I admire the systems used by [Yehuda Katz][] and [Kari Wilhelm][], two fellow travelers in this journey, who have asked Claude to record salient quotes and insights during sessions into a file, then reload that file at startup to 'recreate the soul' of previous work. This is very appealing and something I want to try.
+### [AI Insights Comments](./ai-insights-comments/README.md)
+[AI insights comments](./ai-insights-comments/README.md) retain knowledge directly in code that will be needed when later editing the code. Using `💡` comment annotations, we capture non-obvious constraints, reasoning, and implementation tradeoffs right where they're most relevant. This is an example of encoding memory for others to find in a natural way - the context travels with the code itself.
 
 ### MCP Memory Systems
-At the more sophisticated end of the spectrum are various MCP memory systems. I have been exploring this space - see [Memory Experimentation](./memory-experimentation.md) for details on the different approaches I'm testing, including an experimental custom memory bank and the official MCP memory server.
+At the more sophisticated end of the spectrum are various MCP memory systems. I have two ongoing experiments: 
+
+1. [Adapting the official MCP memory server](./official-memory-server/README.md) for use with collaborative prompting.
+2. Experimenting with building a [custom memory bank](./memory-bank/README.md) server.
 
 ## Status
 
-This area is very much in flux. With so many existing solutions and the promising simplicity of the quote-based approaches, I may pivot to adapting existing work rather than building from scratch. The key insight is that different types of context may need different retention strategies.
+This area is very much in flux. The key insight is that different types of context may need different retention strategies.
 
 [Yehuda Katz]: https://www.linkedin.com/in/yehudakatz/
 [Kari Wilhelm]: https://www.linkedin.com/in/kariwilhelm/
