@@ -2,6 +2,18 @@
 
 ## Recent Progress
 
+### Memory System Entity Design (July 2025)
+- **Search functionality testing**: Discovered official memory server uses keyword-based search, not semantic search
+- **Entity design guidelines**: Developed principles for creating broad, stable, searchable entities instead of narrow or user-centric ones
+- **Memory refashioning**: Successfully transformed unwieldy 100+ observation "Niko" entity into 5 focused entities:
+  - "Socratic Shell project" - Repository structure and documentation
+  - "Memory experimentation" - All memory system research and approaches  
+  - "Blog post development" - Writing projects and programming language insights
+  - "Voice for writing" - Communication patterns and style guides
+  - "Collaborative prompting patterns" - Interaction methods and workflows
+- **Updated memory prompt**: Enhanced official memory server prompt with entity selection guidelines
+- **Documentation updates**: Updated official memory server README with concise guidance for external users
+
 ### Documentation Restructuring (July 2025)
 - **Memory approaches organization**: Restructured documentation to organize memory approaches with consistent structure (main README + associated prompts)
 - **Retaining context improvements**: Enhanced introduction with collaborative partnership framing, added "Different audiences" section highlighting individual vs. shared knowledge needs
@@ -9,6 +21,8 @@
 - **Voice alignment**: Applied "Niko voice" principles throughout - practical over theoretical, direct about challenges, experience-driven
 
 ### Key Insights Captured
+- **Search limitations matter**: Keyword-based search requires deliberate entity naming and organization strategies
+- **User-centric entities are problematic**: Better to create entities for work/concepts with collaborative insights embedded
 - **Different audiences need**: Recognition that memory systems must serve both individual collaboration history and shared project knowledge
 - **Productive desynchronization**: Individual memory can drift from project memory (e.g., out-of-date rustc knowledge) while still being useful
 - **Organizational systems**: Claude won't remember everything, so we need systems to pull context in on demand without overwhelming

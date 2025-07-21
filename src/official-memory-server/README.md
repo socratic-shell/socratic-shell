@@ -18,10 +18,6 @@ Rather than using the memory server mechanically, we've fashioned a [custom prom
 
 This approach treats the external knowledge graph not as a database to fill but as a way to preserve the collaborative understanding that develops between human and AI over time.
 
-## Integration Notes
-Testing how external knowledge graphs support:
-- Organic memory updates during consolidation moments
-- Dual memory layers (shared project + personal user context)
-- Productive desynchronization as a feature rather than bug
+## Entity Design Guidelines
 
-The focus is on storing insights and patterns rather than raw information, using relationships to capture how understanding connects and evolves.
+The official memory server uses keyword-based searching. By default, Claude was simply glomming all the memories onto a single entity that represented the user. The prompt therefore includes guidance meant to improve memory retrieval by focusing memories on a small set of entities, and recognizing that all the memories in the file are always "relative" to the current user anyhow.
