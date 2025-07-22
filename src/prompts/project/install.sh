@@ -5,7 +5,7 @@ set -euo pipefail
 # Syncs team collaboration patterns from GitHub to .socratic-shell/
 # Usage: curl https://raw.githubusercontent.com/nikomatsakis/socratic-shell/main/src/prompts/project/install.sh | bash
 
-REPO_OWNER="nikomatsakis"
+REPO_OWNER="socratic-shell"
 REPO_NAME="socratic-shell"
 TARGET_DIR=".socratic-shell"
 STAMP_FILE="$TARGET_DIR/.commit-stamp"
