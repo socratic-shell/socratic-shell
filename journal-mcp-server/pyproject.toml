@@ -1,0 +1,39 @@
+[project]
+name = "journal-server"
+version = "0.1.0"
+description = "A memory system that emerges from collaborative understanding"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=1.12.1",
+    "pydantic>=2.11.7",
+    "sentence-transformers>=5.0.0",
+]
+
+[project.scripts]
+journal-server = "journal_server.cli:main"
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "mypy>=1.17.0",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+]
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+# Relax strict mode for MCP integration
+strict = false
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+
+[tool.isort]
+profile = "black"
+line_length = 88

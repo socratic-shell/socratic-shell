@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "project-alpha": {
+      "path": "project-alpha",
+      "overview": "Working on a new web application with React and Node.js backend.",
+      "entries": [
+        {
+          "work_context": "initial setup",
+          "content": "Set up the basic project structure with Create React App and Express server. Configured TypeScript for both frontend and backend.",
+          "timestamp": "2024-07-20T10:00:00Z"
+        },
+        {
+          "work_context": "authentication implementation",
+          "content": "Implemented JWT-based authentication with refresh tokens. Added login/logout functionality and protected routes.",
+          "timestamp": "2024-07-21T14:30:00Z"
+        }
+      ],
+      "subsections": {
+        "api-design": {
+          "path": "project-alpha/api-design",
+          "overview": "RESTful API design following OpenAPI 3.0 specification.",
+          "entries": [
+            {
+              "work_context": "endpoint planning",
+              "content": "Designed the main API endpoints: /auth, /users, /projects. Each follows consistent naming and response patterns.",
+              "timestamp": "2024-07-21T09:15:00Z"
+            }
+          ],
+          "subsections": {}
+        }
+      }
+    },
+    "learning-notes": {
+      "path": "learning-notes",
+      "overview": "Collection of insights and learnings from various projects.",
+      "entries": [
+        {
+          "work_context": "performance optimization",
+          "content": "Learned about React.memo and useMemo for preventing unnecessary re-renders. Significant performance improvement in list components.",
+          "timestamp": "2024-07-19T16:45:00Z"
+        }
+      ],
+      "subsections": {}
+    }
+  }
+}
