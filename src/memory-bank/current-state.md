@@ -2,6 +2,20 @@
 
 ## Recent Progress
 
+### Journal Server Design Breakthrough (July 2025)
+- **Git-centric architecture**: Revolutionary approach using git as both storage engine and identifier system
+- **Elegant inversion**: File contents hold current overview/synthesis, commit messages contain incremental journal entries
+- **Natural collaboration**: Git's merge machinery handles multiple sessions, LLM synthesis resolves overview conflicts
+- **Clean identifier scheme**: `path#hash` format where hash is optional (current vs. specific entry)
+- **MCP tool API refined**: Five focused tools with clear responsibilities:
+  - `journal_search` - Dual-dimension search (work_context + content) with temporal salience
+  - `journal_read` - Load current overview or specific entry content
+  - `journal_toc` - Navigate hierarchical structure (table of contents)
+  - `journal_list_entries` - Chronological paging through entries for a section
+  - `journal_write` - Update with read-before-write conflict detection
+- **Conflict resolution strategy**: Auto-rebase for entries, LLM synthesis for conflicting overviews
+- **Temporal salience**: Natural decay where recent entries are easily accessible, older require higher relevance
+
 ### Memory System Entity Design (July 2025)
 - **Search functionality testing**: Discovered official memory server uses keyword-based search, not semantic search
 - **Entity design guidelines**: Developed principles for creating broad, stable, searchable entities instead of narrow or user-centric ones
@@ -21,6 +35,9 @@
 - **Voice alignment**: Applied "Niko voice" principles throughout - practical over theoretical, direct about challenges, experience-driven
 
 ### Key Insights Captured
+- **Journal metaphor breakthrough**: Memory as organic, reflective practice rather than mechanical storage
+- **Hermeneutic circle integration**: Journal structure naturally supports the back-and-forth between parts and whole understanding
+- **Git as memory engine**: Version control becomes collaborative memory storage with rich history preservation
 - **Search limitations matter**: Keyword-based search requires deliberate entity naming and organization strategies
 - **User-centric entities are problematic**: Better to create entities for work/concepts with collaborative insights embedded
 - **Different audiences need**: Recognition that memory systems must serve both individual collaboration history and shared project knowledge
@@ -28,6 +45,13 @@
 - **Organizational systems**: Claude won't remember everything, so we need systems to pull context in on demand without overwhelming
 
 ## Open Questions
+
+### Journal Server Implementation
+- **Session management**: How to track read state across multiple concurrent sessions
+- **Git synchronization**: Pull/push strategies for multi-user collaboration
+- **Performance optimization**: Incremental search indexing for large journal histories
+- **Branch support**: Should we support git branches for exploring different understanding paths?
+- **Commit message structure**: Optimal format for journal entries in commit messages
 
 ### Technical Implementation
 - **Context detection**: How to automatically identify "what we're doing" for memory tagging
@@ -46,6 +70,13 @@
 - **System evolution**: How the memory bank itself learns and improves over time
 
 ## Recent Discoveries
+
+### Journal Server Architecture (2025-07-21)
+- **Git commits as identifiers**: SHA1 hashes provide natural, unique identifiers for journal entries
+- **Dual-dimension search effectiveness**: Separating work_context from content prevents false positives
+- **Read-before-write protection**: Simple session tracking prevents lost updates in collaborative scenarios
+- **File structure simplicity**: Just markdown files + git eliminates complex database requirements
+- **Natural consolidation moments**: "Make it so" moments align perfectly with git commit boundaries
 
 ### Consolidation Strategy Insights (2025-07-01)
 - **Hybrid approach**: Both autonomous consolidation (for fresh insights) and checkpoint-triggered (for conversation patterns)
@@ -75,28 +106,36 @@
 
 ## Next Design Priorities
 
-### Phase 1: Core MCP Tools (Active - GitHub Issues #1-3)
-- ✅ **Test harness implemented**: YAML-based dialectic test runner operational
-- 🔄 **GitHub tracking migration**: Breaking down .ongoing files into focused issues
-- 🔄 **mdBook knowledge base**: Moving design documentation to sustainable format
-- ⏳ **MCP tool interface design**: Based on settled architecture principles
-- ⏳ **Basic conflict detection**: Error handling and user collaboration patterns
+### Phase 1: Journal Server Implementation (Active)
+- ✅ **Core design completed**: Git-centric architecture with clean MCP tool API
+- ✅ **Implementation notes documented**: Technical specifications ready for development
+- 🔄 **MCP server development**: Python implementation of the five core tools
+- ⏳ **Search indexing**: Semantic embeddings for dual-dimension search
+- ⏳ **Conflict resolution**: LLM synthesis for overview conflicts
+- ⏳ **Session management**: Read-before-write protection implementation
 
-### Phase 2: Intelligence Layer (Planned)
+### Phase 2: Integration & Testing (Planned)
+- **Integration with existing patterns**: Connect with .ongoing files and tracking issues
+- **Performance optimization**: Incremental indexing and caching strategies
+- **Multi-user collaboration**: Git synchronization and distributed workflows
+- **Advanced features**: Branch support, rich commit metadata, temporal queries
+
+### Phase 3: Intelligence Layer (Future)
 - **Two-stage retrieval implementation** (BM25 + semantic reranking)
 - **Memory evolution logic** (generalization, splitting, error correction)
 - **Natural timing integration** with CLAUDE.md patterns
 
 ### Immediate Next Steps
-1. Complete mdBook migration of design documentation
-2. Implement core MCP tools for consolidate/read_in/store_back
-3. Create memory consolidation test cases for validation
-4. Refine conflict resolution criteria and decision framework
+1. Begin Python MCP server implementation for journal server
+2. Implement core git operations and file management
+3. Build semantic search indexing system
+4. Create test cases for journal server operations
+5. Integrate with existing collaboration patterns
 
 ## Status Summary
 
-**Current Phase**: Transitioning from design to implementation  
-**Test System**: ✅ Operational YAML-based validation framework  
-**Documentation**: 🔄 Migrating to sustainable mdBook format  
-**Implementation**: ⏳ Ready to begin core MCP tool development  
-**Validation**: ✅ Test framework ready for memory operation validation
+**Current Phase**: Journal server design → implementation transition  
+**Architecture**: ✅ Git-centric design with elegant tool API completed  
+**Documentation**: ✅ Comprehensive implementation notes ready  
+**Next Focus**: 🔄 Python MCP server development  
+**Innovation**: Revolutionary approach using git as collaborative memory engine
