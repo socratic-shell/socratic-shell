@@ -23,9 +23,8 @@
     - [Design Foundation](./memory-bank/design-foundation.md)
     - [Current State](./memory-bank/current-state.md)
     - [Frequently asked questions](./memory-bank/faq.md)
-- [Journal Server Design](./journal-server/README.md)
-    - [Design Document](./journal-server/design-doc.md)
-    - [Implementation Plan](./journal-server/implementation-plan.md)
+- [Journal MCP Server](./journal-mcp-server/README.md)
+    - [Design Document](./journal-mcp-server/design-doc.md)
 
 # Dialectic
 
