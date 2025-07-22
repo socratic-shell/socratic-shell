@@ -7,7 +7,7 @@ The installation step imports these scripts into your repository and includes a 
 ## Installation
 
 ```bash
-curl https://raw.githubusercontent.com/nikomatsakis/socratic-shell/main/prompts/project/install.sh | bash
+curl https://raw.githubusercontent.com/socratic-shell/socratic-shell/main/src/prompts/project/install.sh | bash
 ```
 
 This will sync the patterns to your project's `.socratic-shell/` directory.
