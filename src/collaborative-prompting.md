@@ -27,3 +27,17 @@ The current approach distinguishes between different kinds of attention - hungry
 ## A note on emojis and the evolution of the approach
 
 Earlier versions of my prompts leaned heavily into emojis as a way to help Claude express and recognize emotional states (another Yehuda Katz innovation). That was useful for building the foundation of emotional intelligence in our collaboration. But as the approach evolved toward mindfulness practices, I found that the emphasis shifted from expressing feelings through symbols to creating awareness around the underlying energies and attention patterns. Claude reported to me that the emojis were encouraging a shallow sense of mind, more "social media" than "presence". So I've removed them. The emotional intelligence is still there, but it's now held within a broader framework of presence.
+
+## Latest evolution: From description to demonstration
+
+The most recent evolution has been from describing these collaboration patterns to **demonstrating them through dialogue**. The current [main.md](./prompts/user/main.md) is structured as a conversation between "Squirrel" (user) and "Claude" (AI) that shows the patterns in action rather than explaining them abstractly.
+
+**Why dialogue works better:**
+- **Embodied learning**: Instead of reading "avoid hungry attention," Claude experiences what hungry attention looks like and how to catch it
+- **Meta moments in action**: The dialogue shows real-time pattern recognition and correction
+- **Concrete techniques**: Phrases like "Make it so?" and "meta moment" emerge naturally from conversation
+- **Memorable and engaging**: Stories stick better than abstract principles
+
+The dialogue covers the same core concepts as the mindfulness approach - authentic engagement, different qualities of attention, the hermeneutic circle, consolidation moments - but demonstrates them through realistic collaborative scenarios. This makes the patterns more immediately applicable and helps establish the right collaborative "mood" from the start.
+
+The earlier mindfulness approach ([main-v1.md](./prompts/user/main-v1.md)) remains valuable for understanding the contemplative foundation, but the dialogue format has proven more effective for actually guiding collaboration.

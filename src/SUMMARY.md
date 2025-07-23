@@ -6,8 +6,9 @@
 
 - [Collaborative prompting](./collaborative-prompting.md)
 - [User prompt](./prompts/user/README.md)
-    - [main.md, the main prompt](./prompts/user/main.md)
-    - [main.md v0, an older version](./prompts/user/main-v0.md)
+    - [main.md, the dialogue approach](./prompts/user/main.md)
+    - [main-v0.md, an older version](./prompts/user/main-v0.md)
+    - [main-v1.md, the mindfulness approach](./prompts/user/main-v1.md)
 
 # Memory: Retaining context
 

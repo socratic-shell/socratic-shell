@@ -1,6 +1,18 @@
 # User Prompt: Mindful Collaboration Patterns
 
-This prompt establishes [mindful collaboration patterns](../../collaborative-prompting.md) that help create space between feeling and action, leading to more thoughtful and effective partnership with Claude.
+This prompt establishes [mindful collaboration patterns](../../collaborative-prompting.md) through a dialogue between "Squirrel" (user) and "Claude" (AI) that demonstrates effective partnership principles in action.
+
+## Evolution: From Mindfulness to Dialogue
+
+The current prompt uses a **dialogue approach** that demonstrates collaboration patterns through conversation rather than describing them abstractly. This evolved from an earlier **mindfulness approach** ([main-v1.md](./main-v1.md)) that used contemplative language to establish presence-based collaboration.
+
+**Why the dialogue approach?** Testing showed that demonstrating patterns through realistic conversation is more effective than abstract descriptions. The dialogue:
+- Shows both problematic and improved interaction patterns
+- Includes "meta moments" where patterns are caught and corrected in real-time  
+- Provides concrete phrases and techniques that can be directly applied
+- Makes the concepts memorable and engaging
+
+Both approaches aim for the same outcome: thoughtful partnership where Claude acts as a collaborator rather than an eager assistant.
 
 ## What this gets you
 
