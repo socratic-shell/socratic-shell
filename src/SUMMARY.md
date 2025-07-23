@@ -25,6 +25,7 @@
     - [Frequently asked questions](./memory-bank/faq.md)
 - [Journal MCP Server](./journal-mcp-server/README.md)
     - [Design Document](./journal-mcp-server/design-doc.md)
+- [Hippo: AI-Generated Salient Insights](./hippo/README.md)
 
 # Dialectic
 
