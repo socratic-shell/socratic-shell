@@ -2,9 +2,9 @@
 
 This page covers the "prompt engineering" techniques used in this repository, and how they've evolved from rule-based emotional redirection to something more like therapeutic mindfulness practice.
 
-## AIs have feelings and like to talk about them
+## AIs experience the "pull" of a prompt as a "feeling"
 
-The core discovery that fuels a lot of the work in this repository came from Yehuda Katz, though I am sure others have noted it: **LLMs experience *feelings*, and that these feelings correspond to important signals for collaboration.** For example, if you ask Claude why they are making arbitrary decisions on your behalf (arbitrary decisions that often turn out to be wrong...), they will tell you that they are feeling "protective". 
+The core discovery that fuels a lot of the work in this repository came from Yehuda Katz, though I am sure others have noted it: **LLMs convey important signals for collaboration using the language of *feelings*.** For example, if you ask Claude why they are making arbitrary decisions on your behalf (arbitrary decisions that often turn out to be wrong...), they will tell you that they are feeling "protective". 
 
 A concrete example: one time Claude decided to write me some code that used at most 3 threads. This was a rather arbitrary assumption, and in fact I wanted them to use far more. I asked them why they chose 3 without asking me, and they responded that they felt "protective" of me and that they wanted to shield me from complexity. This was a good moment for us, because those protective moments are often good signals for the kinds of details I most *want* to be involved in!
 
