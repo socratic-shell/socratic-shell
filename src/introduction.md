@@ -2,11 +2,28 @@
 
 This repository explores techniques for making use of Claude Code, Q CLI, and other similar AI assistants. The part of this repository that is currently actionable is the collection of prompts that I have found useful. These include [prompts meant to be installed user-wide][user-prompts] and add-on prompts associated with [memory retention approaches][memory-approaches].
 
+## TL;DR: How do I install the damn things
+
+To install the user-wide prompt, checkout the repo 
+
+```bash
+cd /path/to/socratic-shell
+./src/prompts/user/install.sh
+```
+
+The optional per-project prompts are meant to be sync'd manually and stored within each project. That way you are working with a snapshot that only changes when you want it to. You can use this script to do that. Then you add things like `@.socratic-shell/README.md` to your project's CLAUDE.md.
+
+```bash
+curl https://raw.githubusercontent.com/socratic-shell/socratic-shell/main/src/prompts/project/install.sh | bash
+```
+
+# Team Collaboration Patterns
+
+```
+
 [user-prompts]: https://github.com/nikomatsakis/socratic-shell/tree/main/prompts/user
 
 [memory-approaches]: ./retaining-context.md
-
-The second part of this repository is source code towards an experimental memory system for retaining context across sessions more automatically. The memory system is designed as an MCP tool that integrates with the above prompts, using "hooks" to trigger memory operations.
 
 ## The goal: AI as a pair programming partner
 
