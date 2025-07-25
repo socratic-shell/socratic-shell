@@ -6,7 +6,7 @@ set -euo pipefail
 # It will add imports to ~/.claude/CLAUDE.md that reference this repo's patterns
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../../.." && pwd)"
 CLAUDE_DIR="$HOME/.claude"
 CLAUDE_FILE="$CLAUDE_DIR/CLAUDE.md"
 
