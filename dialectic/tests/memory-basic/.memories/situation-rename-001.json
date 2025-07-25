@@ -1,6 +1,0 @@
-{
-  "id": "situation-rename-001",
-  "content": "Renamed 'subjects' field to 'situation' because 'subjects' was misleading. The field's purpose is to capture the context/situation when the memory was formed, so that similar situations can trigger relevant memory retrieval. Better name makes the intent clearer.",
-  "situation": ["designing memory structure", "field naming discussion", "clarity breakthrough", "working with Niko"],
-  "created_at": "2024-07-09T15:30:00Z"
-}
