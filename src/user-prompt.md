@@ -1,3 +1,0 @@
-# The user prompt
-
-I'm still experimenting with the best way to do this. The [prompts][] section of this repository contains some of the useful patterns. One thing I've found useful is to have a ["boot procedure"](https://github.com/nikomatsakis/socratic-shell/blob/main/prompts/user/main.md#boot-procedure) (I just say "Hi again, Claude!" -- but I discussed it with Claude to find the phrasing we both liked) that has Claude repeat back key things to me. Doing that seems to help it remember better than just having the content in CLAUDE.md.

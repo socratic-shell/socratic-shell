@@ -3,3 +3,8 @@ authors = ["Niko Matsakis"]
 language = "en"
 src = "src"
 title = "Socratic Shell"
+
+[output.html]
+edit-url-template = "https://github.com/socratic-shell/socratic-shell/edit/main/src/{path}"
+git-repository-url = "https://github.com/socratic-shell/socratic-shell"
+git-repository-icon = "fa-github"
