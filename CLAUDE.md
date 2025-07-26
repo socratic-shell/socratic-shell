@@ -12,7 +12,7 @@ The repository combines an mdbook (found in `src`) with various code experiments
 
 When exploring new ideas, we keep most of our documentation in the mdbook, including goals, architectural design, and key implementation details.
 
-However, we do not use the mdbook to store transient information like the set of ongoing tasks. Those are maintained in github issues:
+However, we do not use the mdbook to store transient information like the set of ongoing tasks. Those are maintained in github issues on the repository `socratic-shell/socratic-shell`:
 
 @src/prompts/project/github-tracking-issues.md
 
