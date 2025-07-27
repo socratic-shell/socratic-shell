@@ -6,6 +6,8 @@ The installation step imports these scripts into your repository and includes a 
 
 ## Installation
 
+See the [installation guide](../../installation.md) for complete setup instructions. The quick version:
+
 ```bash
 curl https://raw.githubusercontent.com/socratic-shell/socratic-shell/main/src/prompts/project/install.sh | bash
 ```

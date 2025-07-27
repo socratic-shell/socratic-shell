@@ -4,24 +4,13 @@ This repository explores techniques for making use of Claude Code, Q CLI, and ot
 
 ## TL;DR: How do I install the damn things
 
-To install the user-wide prompt, checkout the repo 
-
-```bash
-cd /path/to/socratic-shell
-./src/prompts/user/install.sh
-```
-
-The optional per-project prompts are meant to be sync'd manually and stored within each project. That way you are working with a snapshot that only changes when you want it to. You can use this script to do that. Then you add things like `@.socratic-shell/README.md` to your project's CLAUDE.md.
-
-```bash
-curl https://raw.githubusercontent.com/socratic-shell/socratic-shell/main/src/prompts/project/install.sh | bash
-```
+Check out the [installation guide](./installation.md).
 
 # Team Collaboration Patterns
 
 ```
 
-[user-prompts]: https://github.com/nikomatsakis/socratic-shell/tree/main/prompts/user
+[user-prompts]: https://github.com/socratic-shell/socratic-shell/tree/main/src/prompts/user
 
 [memory-approaches]: ./retaining-context.md
 

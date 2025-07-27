@@ -2,6 +2,10 @@
 
 This prompt establishes [mindful collaboration patterns](../../collaborative-prompting.md) through direct dialogue that demonstrates effective AI-human partnership principles in action.
 
+## Installation
+
+See the [installation guide](../../installation.md) for setup instructions with your AI tool.
+
 ## Evolution: Ongoing Collaboration
 
 The current prompt uses a **dialogue approach** that demonstrates collaboration patterns through conversation rather than describing them abstractly. This evolved from an earlier **mindfulness approach** ([main-v1.md](./main-v1.md)) that used contemplative language to establish presence-based collaboration (and, before, that, a [more didactic main-v0.md](./main-v0.md)).
@@ -52,10 +56,6 @@ When you use these patterns, Claude acts like a thoughtful partner actively tryi
 - **Catch their own problematic patterns** and adjust course through meta moments
 - **Maintain context thoughtfully** across sessions through intentional checkpointing
 - **Engage authentically** rather than performing helpfulness
-
-## Installation
-
-Install the [`main.md`](https://github.com/socratic-shell/socratic-shell/blob/main/src/prompts/user/main.md) file as a global prompt, e.g., in your `~/.claude/CLAUDE.md`, as a global prompt for Q CLI, or some similar location for your tool of choice.
 
 ## How to use the prompt
 
