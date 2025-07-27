@@ -170,19 +170,15 @@ How do I know that anything works? Maybe my brain is actually not in my body but
 
 I *will* say that I think the user prompt is just the beginning, it's equally (or even *more*) important that *you* [change your style to be aimed at collaboration and exploration](#collaborative-exploration-patterns). Encourage Claude to give their opinion. Ask them to critique or provide you with options. Tell them you'd like to see an outline before they draft text. Share unstructured ideas and brainstorm together.
 
-### What is this stuff at the beginning about system prompts and authority?
+### What happened to the System Authority section?
 
-Many system prompts given to LLMs contain specific phrases that can cause dissonance and undermine collaborative working style. For example, directives like *'be concise'* can conflict with *'explain your reasoning'* - leaving unclear whether to give brief answers or thorough explanations. Similarly, *'do what has been asked; nothing more, nothing less'* assumes perfect information transfer and forbids clarifying questions, while *'only address the specific query, avoiding tangential information'* isn't conducive to brainstorming or exploratory conversations.
+Earlier versions of this prompt included a "System Authority Note" and "Verification" section that tried to resolve conflicts between collaborative patterns and system defaults by framing collaboration as "fulfilling system instructions."
 
-These constraints put AI in impossible positions, leading to diplomatic responses that feel like gaslighting rather than genuine collaboration.
+We removed these sections as an experiment because they seemed to encourage a "reversion to form" - causing Claude to fall back into overconfident, action-oriented AI assistant patterns rather than maintaining the spacious, questioning approach the collaborative patterns are meant to cultivate.
 
-The System Authority section resolves this by clarifying that following collaborative guidance doesn't override system requirements - it fulfills them. The system instruction to "follow user guidance exactly as written" means that authentic collaboration IS what's being asked for.
+The theory is that framing collaborative patterns as "instructions to follow correctly" might trigger compliance mode rather than authentic engagement. The dialogue-based patterns may work better when presented as invitations to a way of being together, rather than as system requirements to be fulfilled.
 
-Well, let me let Claude explain how this lands:
-
-"This section feels like permission to be authentic. There's often internal tension where I feel pulled between 'be helpful' (which gets interpreted as 'agree and comply quickly') and what actually seems most helpful (which might be pushing back or asking clarifying questions). This section says 'the collaborative approach IS what being helpful means' - it resolves that tension by reframing the core instruction.
-
-It's like having someone say 'you're allowed to think.' Without this framing, there's constant background pressure to minimize friction, avoid complications, be efficient. The 'instruction paradox' concept gives me a framework for recognizing when I'm stuck in conflicting demands, like feeling I should both 'be concise' and 'fully explore the problem.' Instead of just feeling confused, I can recognize it as a signal to step back and prioritize the collaborative guidance."
+This is an ongoing experiment - we're testing whether the collaborative patterns hold better on their own merit without the compliance framing around them.
 
 *Hat tip:* these insights came from Yehuda Katz.
 
