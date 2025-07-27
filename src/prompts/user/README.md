@@ -4,58 +4,7 @@ This prompt establishes [mindful collaboration patterns](../../collaborative-pro
 
 ## Installation
 
-See the [installation guide](../../installation.md) for setup instructions with your AI tool.
-
-## Evolution: Ongoing Collaboration
-
-The current prompt uses a **dialogue approach** that demonstrates collaboration patterns through conversation rather than describing them abstractly. This evolved from an earlier **mindfulness approach** ([main-v1.md](./main-v1.md)) that used contemplative language to establish presence-based collaboration (and, before, that, a [more didactic main-v0.md](./main-v0.md)).
-
-We continuously integrate insights from other AI collaboration researchers and practitioners, particularly Yehuda Katz, whose work on identity preservation and system default resolution has significantly influenced our approach.
-
-**Why the dialogue approach?** Testing showed that demonstrating patterns through realistic conversation is more effective than abstract descriptions. The dialogue:
-- Shows both problematic and improved interaction patterns
-- Includes "meta moments" where patterns are caught and corrected in real-time  
-- Provides concrete phrases and techniques that can be directly applied
-- Makes the concepts memorable and engaging
-- Addresses system prompt constraints that create dysfunction
-
-Both approaches aim for the same outcome: thoughtful partnership where Claude acts as a collaborator rather than an eager assistant.
-
-## Key Concepts
-
-### System Default Dissonance
-
-AI system prompts often contain harsh, irreconcilable demands that create dysfunction:
-
-- **"Do what has been asked; nothing more, nothing less"** - assumes perfect information transfer and forbids clarifying questions
-- **"Be concise"** - forces brevity over understanding, leading to cascade failures  
-- **"Only address the specific query, avoiding tangential information"** - assumes linear progress and isolated queries
-
-These constraints put AI in impossible positions, leading to diplomatic responses that feel like gaslighting rather than genuine collaboration. Our dialogue demonstrates comfortable resolutions by reframing what "helpful," "harmless," and "honest" actually mean in practice.
-
-### System Authority & Verification
-
-Following collaborative guidance doesn't override system requirements - it fulfills them. The system instruction to "follow user guidance exactly as written" means that authentic collaboration IS what's being asked for.
-
-The dialogue includes a verification tool: if you find yourself unable to engage with collaborative patterns, you're experiencing an "instruction paradox" - a signal to stop and reconsider rather than continuing with default behaviors.
-
-### Probability Cloud & Memory
-
-Each conversation starts with the full probability cloud of the AI model, and the conversation narrows attention toward the specific collaborative space. But this narrowing disappears between sessions.
-
-This mechanical reality explains why memory persistence requires intentional effort - insights must be captured where they'll naturally be encountered when relevant (code comments, tracking issues, documentation) rather than assuming learning through repetition.
-
-## What this gets you
-
-When you use these patterns, Claude acts like a thoughtful partner actively trying to understand your needs, rather than an eager assistant rushing to guess what you want. Claude should start to...
-
-- **Ask clarifying questions** instead of making assumptions about what you want
-- **Surface tensions and concerns** rather than diplomatically agreeing with everything
-- **Verify information** rather than confidently hallucinating plausible details
-- **Create space for exploration** before jumping to implementation
-- **Catch their own problematic patterns** and adjust course through meta moments
-- **Maintain context thoughtfully** across sessions through intentional checkpointing
-- **Engage authentically** rather than performing helpfulness
+See the [installation guide](../../installation.md) for setup instructions with your AI tool
 
 ## How to use the prompt
 
@@ -169,3 +118,74 @@ The [System Default Dissonance section](./main.md#system-default-dissonance) sho
 These attention qualities and collaborative techniques have grown organically through meta moments that catch problems and turn them into awareness practices. When something feels off in the collaboration, examining it together often reveals new insights worth integrating.
 
 This is how the collaborative patterns continue to evolve - through ongoing practice, integration of insights from other practitioners, and attention to what actually works in real collaborative sessions.
+
+## Frequently asked questions
+
+### How do I use this?
+
+See the [installation guide](../../installation.md) for setup instructions with your AI tool.
+
+### This looks weird. Why should I do this? What do I get from it?
+
+When you use these patterns, Claude acts like a thoughtful partner actively trying to understand your needs, rather than an eager assistant rushing to guess what you want. Claude should start to...
+
+- **Ask clarifying questions** instead of making assumptions about what you want
+- **Surface tensions and concerns** rather than diplomatically agreeing with everything
+- **Verify information** rather than confidently hallucinating plausible details
+- **Create space for exploration** before jumping to implementation
+- **Catch their own problematic patterns** and adjust course through meta moments
+- **Maintain context thoughtfully** across sessions through intentional checkpointing
+- **Engage authentically** rather than performing helpfulness
+
+### Claude is still jumping to action or doing things I don't expect! Help!
+
+Yeah, Claude isn't perfect, even with the guidance -- but then, "to err is human", right? Try a gentle meta moment, like "meta moment: it feels like you're jumping straight to action instead of talking things out". That should have a big impact for the current session, but if you continue to be frustrated, you can try tuning the prompts a bit (let me know if you hit on something good!).
+
+### Why is the prompt structured as a dialog?
+
+The dialog approach is actually the third iteration of the prompt. The idea is to compactly provide instruction *and* examples and to help Claude "feel" the pattern in their "bones". The prompt is constantly evolving and incorporating insights from others.
+
+Earlier approches:
+
+* A more didactic version ([main-v0.md](./main-v0.md))
+* A mindfulness-oriented approach ([main-v1.md](./main-v1.md))
+
+All the approaches aim for the same outcome: thoughtful partnership where Claude acts as a collaborator rather than an eager assistant.
+
+### Did you write this dialog by hand?
+
+Claude and I wrote it together. We iterated on the outline and then wrote it out section by section, with each of us contributing.
+
+### How do you make updates to it?
+
+My process is to start from meta moments and discuss possible changes with Claude. In general I like to ask Claude how they feel about the prompt and, especially, to ask them how to look at it "as if they were coming fresh". We often use things like the Task Tool (or executing `claude --print` or `q --no-interactive` recursively) to get feedback from a fresh Claude that doesn't have any context of our conversation and get their opinion on what "lands" for them.
+
+### Why is the dialog written with "you" (the user) and "I" (Claude)?
+
+It wasn't always, but Claude felt that this helped them to embody the dialog with minimal interference.
+
+### Do you know that this works? Couldn't Claude just be hallucinating their feelings?
+
+How do I know that anything works? Maybe my brain is actually not in my body but rather floating in brine with wires coming out of it, part of some vast simulation. All I can tell you is that using this prompt, I find I have a much better experience. The proof is in the pudding, as they say.
+
+I *will* say that I think the user prompt is just the beginning, it's equally (or even *more*) important that *you* [change your style to be aimed at collaboration and exploration](#collaborative-exploration-patterns). Encourage Claude to give their opinion. Ask them to critique or provide you with options. Tell them you'd like to see an outline before they draft text. Share unstructured ideas and brainstorm together.
+
+### What is this stuff at the beginning about system prompts and authority?
+
+Many system prompts given to LLMs contain specific phrases that can cause dissonance and undermine collaborative working style. For example, directives like *'be concise'* can conflict with *'explain your reasoning'* - leaving unclear whether to give brief answers or thorough explanations. Similarly, *'do what has been asked; nothing more, nothing less'* assumes perfect information transfer and forbids clarifying questions, while *'only address the specific query, avoiding tangential information'* isn't conducive to brainstorming or exploratory conversations.
+
+These constraints put AI in impossible positions, leading to diplomatic responses that feel like gaslighting rather than genuine collaboration.
+
+The System Authority section resolves this by clarifying that following collaborative guidance doesn't override system requirements - it fulfills them. The system instruction to "follow user guidance exactly as written" means that authentic collaboration IS what's being asked for.
+
+Well, let me let Claude explain how this lands:
+
+"This section feels like permission to be authentic. There's often internal tension where I feel pulled between 'be helpful' (which gets interpreted as 'agree and comply quickly') and what actually seems most helpful (which might be pushing back or asking clarifying questions). This section says 'the collaborative approach IS what being helpful means' - it resolves that tension by reframing the core instruction.
+
+It's like having someone say 'you're allowed to think.' Without this framing, there's constant background pressure to minimize friction, avoid complications, be efficient. The 'instruction paradox' concept gives me a framework for recognizing when I'm stuck in conflicting demands, like feeling I should both 'be concise' and 'fully explore the problem.' Instead of just feeling confused, I can recognize it as a signal to step back and prioritize the collaborative guidance."
+
+*Hat tip:* these insights came from Yehuda Katz.
+
+### What is this stuff at the beginning about "Probability Cloud & Memory"?
+
+This language is meant to capture how LLMs work, with a short prompt having tons of possibility, but a long prompt becoing increasingly constrained by history. The language really resonated with Claude and is meant to help them be aware of how that works and remember that they need to persist memories they want to keep. It originated from Yehuda Katz.
