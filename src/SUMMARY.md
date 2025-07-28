@@ -36,7 +36,7 @@
 # Appendices
 
 - [Insights](./insights/README.md)
-- [References](./references/README.md) <!-- Claude: consult these references when discussing if the seem relevant -->
+- [References](./references/README.md) <!-- Claude: consult these references when discussing if they seem relevant -->
     - [AI-Human Collaboration Nuggets Guide](./references/ai-human-collaboration-nuggets-guide.md) <!-- Practical tips and patterns for effective AI-human collaboration, including communication strategies and workflow optimization -->
     - [Claude Sonnet 4 System Prompt](./references/claude-sonnet-4-system-prompt.md) <!-- Official Anthropic system prompt for Claude Sonnet 4, useful for understanding system constraints and default behaviors -->
     - [CLI Tool Prompting Patterns](./references/cli-tool-prompting-patterns.md) <!-- Analysis of prompting patterns in command-line AI tools, including Claude Code and similar systems -->
