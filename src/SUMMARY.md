@@ -33,6 +33,13 @@
 
 - [Introduction](./dialectic/README.md)
 
+# RFCs for in-progress features
+
+- [RFC: Socratic Shell VSCode extension for centralized installation and configuration](./rfcs/vscode-extension/README.md) <!-- Answers: overall goals and outlines the high-level implementation details -->
+    - [Repository coordination and bundling](./rfcs/vscode-extension/repo-coordination.md) <!-- Answers: how to coordinate multi-language components using git subtrees and automated syncing -->
+    - [MCP server](./rfcs/vscode-extension/mcp-server.md) <!-- Answers: details about how the MCP server will be implemented, how delegation will work -->
+    - [Hooks](./rfcs/vscode-extension/hooks.md) <!-- Answers: details about which hooks we will make use of and how -->
+
 # Appendices
 
 - [Insights](./insights/README.md)
